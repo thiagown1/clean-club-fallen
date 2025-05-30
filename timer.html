@@ -25,25 +25,10 @@
             overflow-y: auto;
             width: 100%;
             max-width: 100vw;
-        }
-
-        .iframe-container {
-            width: 100%;
-            height: 300px;
-            position: relative;
-            z-index: 10;
-            border-bottom: 2px solid rgba(255, 0, 0, 0.3);
-            margin-bottom: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-        }
-
-        .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 10px;
+            background-image: url('https://cdn.discordapp.com/attachments/1064953709261492346/1378086245854351533/background.png?ex=683b5254&is=683a00d4&hm=dced8b2f8cac83138863f835521055b67f3fd7e00df765ca3457819cb894f85c&');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .turbo-link {
@@ -78,38 +63,6 @@
             min-height: 100vh;
             width: 100%;
             background-color: #000;
-        }
-
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            background-image: url('/images/background.png');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .logo {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
-            transition: transform 0.3s ease;
-            animation: fadeIn 1s ease-in-out forwards;
-            opacity: 0;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .logo img {
-            width: 100px;
-            height: 100px;
         }
 
         .countdown {
@@ -417,16 +370,6 @@
                 margin: 0 0.1rem;
             }
 
-            .logo img {
-                width: 80px;
-                height: 80px;
-            }
-
-            .logo {
-                top: 15px;
-                left: 15px;
-            }
-
             .profile-card {
                 width: 100%;
             }
@@ -484,16 +427,6 @@
             .separator {
                 font-size: 1.8rem;
                 margin: 0;
-            }
-
-            .logo img {
-                width: 60px;
-                height: 60px;
-            }
-
-            .logo {
-                top: 10px;
-                left: 10px;
             }
         }
 
@@ -931,17 +864,56 @@
                 font-size: 0.75rem;
             }
         }
+
+        /* Disabled state for unrevealed legends */
+        .bio-btn:disabled {
+            opacity: 0.5 !important;
+            cursor: not-allowed !important;
+            background: #666 !important;
+        }
+
+        .bio-btn:disabled:hover {
+            background: #666 !important;
+            transform: none !important;
+        }
+
+        /* Unrevealed card styling */
+        .profile-card.unrevealed:hover .description {
+            opacity: 0 !important;
+            transform: translateY(10px) !important;
+            pointer-events: none !important;
+        }
+
+        .profile-card.unrevealed .card-image {
+            filter: brightness(0.7) contrast(1.2);
+        }
+
+        .profile-card.unrevealed:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Coming soon text styling */
+        .nickname.coming-soon {
+            color: #ff6666;
+            font-weight: bold;
+            letter-spacing: 2px;
+            animation: comingSoonGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes comingSoonGlow {
+            from {
+                text-shadow: 0 0 5px #ff6666;
+            }
+
+            to {
+                text-shadow: 0 0 10px #ff6666, 0 0 15px #ff6666;
+            }
+        }
     </style>
 </head>
 
 <body>
     <main class="main">
-        <div class="background"></div>
-
-        <div class="logo">
-            <img src="/images/logo_no_bg.png" alt="Logo">
-        </div>
-
         <div class="countdown" id="countdown">
             <div class="timerContainer">
                 <div class="timerLabel">LAUNCHING IN</div>
@@ -996,43 +968,500 @@
         const secondsElement = document.getElementById('seconds');
         const legendsGridElement = document.getElementById('legendsGrid');
 
-        // Sample legends data
+        // Sample legends data with reveal system
         const legendsData = [
             {
-                name: "Shadow Master",
-                achievement: "First to reach maximum level",
-                date: "2024-03-15",
-                bio: "A legendary player who dominated the early game meta. Known for incredible strategic thinking and flawless execution in high-pressure situations."
+                id: 1,
+                name: "Eduzin",
+                fullName: "Eduardo \"Eduzin\" Chagas",
+                era: "2001-2005",
+                region: "Brazil",
+                teams: ["Arena", "MIBR", "RevoltZ", "G3X"],
+                titles: [
+                    "CPL Brazil 2002, 2003, 2004",
+                    "LatinCup 2003",
+                    "ESWC Brazil 2003, 2004",
+                    "WCG Brazil 2003",
+                    "CPL Chile 2005",
+                    "digiLAB 2006"
+                ],
+                description: "Eduzin foi o primeiro grande AWP da história do MIBR, uma organização que se tornaria referência global na função. Esteve presente na transição do lendário time Arena para o nascimento do Made in Brazil e protagonizou as primeiras grandes conquistas da equipe. Sua trajetória se entrelaça com o início da era competitiva do Counter-Strike no Brasil, sendo um dos pilares da fundação de um legado que dura até hoje.",
+                videoLinks: ["https://www.youtube.com/watch?v=s8QVUVGocc8"],
+                fallenNotes: "Ideia para FalleN falar sobre a transição Arena/MIBR",
+                category: "brazilian-legend",
+                status: "retired",
+                revealDate: "2025-05-30", // First legend
+                stickerImage: "https://cdn.discordapp.com/attachments/1064953709261492346/1378084565519695944/Eduzin-sticker.png?ex=683b50c3&is=6839ff43&hm=60899a552a3ebd2a83d996ad30ac281d3f326b4121fd41334b1767acc5af1f91&",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2663/medium/eduzin-silhueta.png"
             },
             {
-                name: "Iron Fist",
-                achievement: "Undefeated champion for 6 months",
-                date: "2024-02-28",
-                bio: "An unstoppable force in competitive play. Iron Fist's aggressive playstyle and tactical mastery made them virtually unbeatable for half a year."
+                id: 2,
+                name: "Cogu",
+                fullName: "Raphael \"cogu\" Camargo",
+                era: "2001-2018",
+                region: "Brazil",
+                teams: ["g3x", "MIBR", "CNB", "YeaH! Gaming", "TargeTDown", "ProGaming", "paiN", "INTZ", "Gorilla Core"],
+                titles: [
+                    "Latin Cup 2004",
+                    "ESWC Brazil 2004, 2006, 2007",
+                    "CPL Brazil 2004, 2005",
+                    "WCG Brazil 2004, 2008",
+                    "ESWC 2006",
+                    "WCG Pan-American 2006, 2007"
+                ],
+                description: "Cogu é nome certo no Tier S das lendas brasileiras do Counter-Strike. Considerado o melhor AWPer do Brasil no CS 1.6, foi referência mundial em sua época. Com uma carreira marcada por títulos históricos e atuações memoráveis, foi também pioneiro internacional, ao liderar o Brasil rumo ao primeiro grande título global da modalidade: a ESWC 2006.",
+                videoLinks: ["https://www.youtube.com/watch?v=cxm1RB1CzUs", "https://www.youtube.com/watch?v=tkldvb2wBKw"],
+                fallenNotes: "Duelo Train + curiosidade",
+                category: "brazilian-legend",
+                status: "retired",
+                revealDate: "2025-05-31",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2679/medium/cogu-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2660/medium/cogu-silhueta.png"
             },
             {
-                name: "Phoenix Rising",
-                achievement: "Most epic comeback victory",
-                date: "2024-01-20",
-                bio: "Famous for the most incredible comeback in tournament history. When all seemed lost, Phoenix Rising turned defeat into victory against all odds."
+                id: 3,
+                name: "Crash",
+                fullName: "Rodrigo \"Crash\" Neves",
+                era: "2001-2006",
+                region: "Brazil",
+                teams: ["G3X"],
+                titles: [
+                    "WCG Brazil 2001, 2005",
+                    "CPL Brazil 2002, 2004",
+                    "LatinCup 2004"
+                ],
+                description: "Crash não teve uma longa carreira no Counter-Strike, mas deixou uma marca eterna no cenário brasileiro. Cria do lendário G3X, foi considerado um dos melhores AWPers do país durante seu tempo de atividade. Mesmo após pendurar o mouse, seu nome seguiu vivo dentro do jogo: a famosa posição \"xuxa\", no mapa Inferno, é uma homenagem direta ao seu apelido de infância.",
+                videoLinks: [],
+                fallenNotes: "Posição xuxa no Inferno",
+                category: "brazilian-legend",
+                status: "retired",
+                revealDate: "2025-06-01",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2687/medium/crash-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2692/medium/crash-silhueta.png"
             },
             {
-                name: "Night Walker",
-                achievement: "Fastest completion record",
-                date: "2024-04-10",
-                bio: "Speed incarnate. Night Walker holds multiple world records for fastest completion times and continues to push the boundaries of what's possible."
+                id: 4,
+                name: "Hen1",
+                fullName: "Henrique \"Hen1\" Teles",
+                era: "2010-hoje",
+                region: "Brazil",
+                teams: ["FireGamers", "KaBuM!", "Games Academy", "Dexterity", "Tempo Storm", "Immortals", "Luminosity", "FURIA", "O Plano", "MIBR", "Imperial", "RED Canids"],
+                titles: [
+                    "DreamHack Open Summer 2016",
+                    "Northern Arena 2016 - Toronto",
+                    "iBUYPOWER Masters 2016",
+                    "DreamHack Masters Spring 2020: North America",
+                    "ESL Pro League Season 12: North America"
+                ],
+                description: "Do interior de Minas Gerais para o mundo, Hen1 se consolidou como um dos maiores AWPers da história do Brasil. Com títulos conquistados no Brasil, na América do Norte e na Europa, ele também carrega no currículo o posto de vice-campeão de Major. Conhecido pelos seus \"tiros impossíveis\" e mira afiada, Hen1 também conquistou fãs pelo seu carisma único, afinal, o \"Jacaré\" é tão letal quanto divertido.",
+                videoLinks: ["https://www.youtube.com/watch?v=U1JjMCNugzc", "https://www.youtube.com/watch?v=3dv4ejsOoP4"],
+                fallenNotes: "Histórias de quando jogou com Hen1",
+                category: "brazilian-active",
+                status: "active",
+                revealDate: "2025-06-02",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2680/medium/hen1-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2662/medium/hen1-silhueta.png"
             },
             {
-                name: "Storm Breaker",
-                achievement: "Most tournaments won",
-                date: "2024-03-30",
-                bio: "Tournament royalty with an impressive collection of championship titles. Storm Breaker's consistency and adaptability are unmatched."
+                id: 5,
+                name: "kNg",
+                fullName: "Vito \"kNg\" Giuseppe",
+                era: "2007-2023",
+                region: "Brazil",
+                teams: ["semXorah", "CNB", "sixty9", "GamerHouse", "playArt", "G3X", "Keyd Stars", "Orbit", "Red Reserve", "Immortals", "INTZ", "MIBR", "O Plano", "00Nation"],
+                titles: [
+                    "Mega Acervus Cup 2010, 2011",
+                    "G3X Cup 2010",
+                    "World Cyber Arena 2016 - America Finals",
+                    "Copa Go4gold 2016 Stage 2"
+                ],
+                description: "AWP de pura personalidade, dentro e fora de jogo. Esse é o kNg. Um dos poucos que teve a coragem de vestir o manto de vilão e movimentou bastante a cena. Vice-campeão de Major, o jogador será sempre lembrado não apenas pelos seus tiros memoráveis, mas também pelas frases icônicas que viraram bordão: como: \"VAMO QUERER\" e \"ENTRA NA B, COCÔ!\"",
+                videoLinks: ["https://www.youtube.com/watch?v=oS5GbQHpkHg", "https://www.youtube.com/watch?v=szT0ecSi_tg"],
+                fallenNotes: "Quando jogaram juntos. X1 que ele matou de faca.",
+                category: "brazilian-legend",
+                status: "retired",
+                revealDate: "2025-06-03",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2675/medium/kng-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2652/medium/kng-silhueta.png"
             },
             {
-                name: "Void Hunter",
-                achievement: "Legendary achievement unlocked",
-                date: "2024-04-05",
-                bio: "The first player to unlock the impossible achievement that many thought was just a myth. Void Hunter's dedication knows no bounds."
+                id: 6,
+                name: "LuL4",
+                fullName: "Willian \"LuL4\" Elias",
+                era: "2008-2018",
+                region: "Brazil",
+                teams: ["semXorah", "paiN Gaming", "Dexterity", "Dai Dai", "G3X", "Keys Stars", "Alientech", "Supernova"],
+                titles: [
+                    "KODE5 Brazil 2009 - Rio de Janeiro",
+                    "ESWC Brazil 2010 - Rio de Janeiro",
+                    "WCG Brazil 2010 - Pará",
+                    "Alientech CS:GO Invitational II"
+                ],
+                description: "AWPer extremamente agressivo, de flicks tão rápidos quanto a própria luz. Lul4 impressionava não só quem assistia, mas também quem estava do outro lado da mira. Durante seus anos de ouro, rivalizou de igual para igual com os melhores snipers do cenário e nunca ficou para trás. Sua mira afiada e postura ofensiva fizeram dele um nome temido e respeitado no servidor.",
+                videoLinks: ["https://www.youtube.com/watch?v=lYkA9zFQSyg", "https://www.youtube.com/watch?v=DdReb73X_1A"],
+                fallenNotes: "Flicks extremamente rápidos",
+                category: "brazilian-legend",
+                status: "retired",
+                revealDate: "2025-06-04",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2690/medium/lul4-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2653/medium/lul4-silhueta.png"
+            },
+            {
+                id: 7,
+                name: "Maluk3",
+                fullName: "Pedro \"Maluk3\" Campos",
+                era: "2002-hoje",
+                region: "Brazil",
+                teams: ["inSanity", "Team One", "PlayArt", "MIBR", "GameCrashers", "LOS"],
+                titles: ["FIRE 2010", "Copa XLG", "Geek City CS:GO 2017", "ESEA Premier 35 e 37: NA"],
+                description: "Maluk3 é um dos raros dinossauros do Counter-Strike brasileiro que seguem em atividade até hoje. Sua longevidade é prova do amor e da dedicação que tem pelo jogo. Assim como FalleN, construiu sua carreira dividindo as funções de AWPer e Capitão, liderando equipes e mantendo vivo o espírito competitivo por mais de uma década.",
+                videoLinks: ["https://www.youtube.com/watch?v=3CorASH-uGI", "https://www.youtube.com/watch?v=cw5al-BIHdI"],
+                fallenNotes: "Longevidade e liderança",
+                category: "brazilian-active",
+                status: "active",
+                revealDate: "2025-06-05",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2675/medium/maluke-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2654/medium/maluke-silhueta.png"
+            },
+            {
+                id: 8,
+                name: "Saffee",
+                fullName: "Rafael \"Saffee\" Costa",
+                era: "2010-2011/2019-hoje",
+                region: "Brazil",
+                teams: ["FireGamers", "Authority", "Paquetá Esports", "paiN Gaming", "FURIA", "MIBR"],
+                titles: ["DreamHack Open January 2021: North America", "PGL Major Antwerp 2022: American RMR", "XL Games 2023"],
+                description: "Saffee teve uma breve passagem pelo CS 1.6, mas foi no CS:GO que construiu seu nome com força. Após um retorno surpreendente, protagonizou uma ascensão meteórica, chamando atenção pelo nível técnico e constância. Além dos títulos, sua carreira também é marcada pela campanha com a FÚRIA no único Major disputado em solo brasileiro.",
+                videoLinks: ["https://www.youtube.com/watch?v=ivyolCpGw1U"],
+                fallenNotes: "Retorno surpreendente",
+                category: "brazilian-active",
+                status: "active",
+                revealDate: "2025-06-06",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2685/medium/saffe-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2656/medium/saffe-silhueta.png"
+            },
+            {
+                id: 9,
+                name: "Spacca",
+                fullName: "Guilherme \"Spacca\" Spacca",
+                era: "2006-2018",
+                region: "Brazil",
+                teams: ["GameCrashers", "FireGamers", "MIBR", "CNB", "paiN", "TargeTDown", "Merciless", "FURIA"],
+                titles: ["KODE5 Brazil 2009, 2010", "KODE5 2010", "ESL BPL 3 e 5", "Aorus League 2018"],
+                description: "Líder nato, AWPer agressivo e um exemplo de dedicação. Essas três características definem Spacca durante sua trajetória como jogador profissional. Seu desempenho chamou atenção do próprio cogu, que o convidou para integrar o MIBR, um reconhecimento que poucos alcançaram.",
+                videoLinks: ["https://x.com/guispacca/status/1750157142126886998/history"],
+                fallenNotes: "Rivalidade Crashers vs vsONE",
+                category: "brazilian-legend",
+                status: "retired",
+                revealDate: "2025-06-07",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2686/medium/spacca-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2657/medium/spacca-silhueta.png"
+            },
+            {
+                id: 10,
+                name: "Ton",
+                fullName: "Wellington \"ton\" Caruso",
+                era: "2004-2010",
+                region: "Brazil",
+                teams: ["MIBR", "GameCrashers", "g3x", "CNB"],
+                titles: ["ESWC Brazil 2005 e 2008", "DreamHack Winter 2007", "GameGune 2008"],
+                description: "Ton foi, por muitos, considerado o único sniper brasileiro capaz de bater de frente com cogu no CS 1.6 e talvez o único a superá-lo em seu auge. Seu talento era natural, agressivo e preciso. Quem teve o privilégio de vê-lo jogar, sabe exatamente o significado de talento nato.",
+                videoLinks: ["https://www.youtube.com/watch?v=4h7DGgzHaRM", "https://www.youtube.com/watch?v=cm3VdNJj53I"],
+                fallenNotes: "Talento nato",
+                category: "brazilian-legend",
+                status: "retired",
+                revealDate: "2025-06-08",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2678/medium/ton-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2658/medium/ton-silhueta.png"
+            },
+            {
+                id: 11,
+                name: "zqk",
+                fullName: "Caio \"zqk\" Fonseca",
+                era: "2007-2024",
+                region: "Brazil",
+                teams: ["CNB", "YeaH! Gaming", "KaBuM", "Keyd Stars", "paiN Gaming", "Immortals", "Imperial", "Corinthians", "Flamengo"],
+                titles: ["iBUYPOWER Invitational 2015", "DreamHack Open March 2021: South America", "CBCS Masters 2021"],
+                description: "Zqk é um dos AWPers mais táticos, inteligentes e disciplinados que o cenário brasileiro já viu. As qualidades exigidas de um sniper na vida real - paciência, frieza e precisão. Ele aplicava com maestria dentro do jogo. Revelado com destaque no CS: Source, teve papel fundamental no crescimento do CS:GO no Brasil.",
+                videoLinks: ["https://www.youtube.com/watch?v=z09GR2-Ugh0", "https://www.youtube.com/watch?v=gV0HhU4S9-4"],
+                fallenNotes: "Importância para o cenário, época que jogaram juntos",
+                category: "brazilian-legend",
+                status: "retired",
+                revealDate: "2025-06-09",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2682/medium/zqk-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2665/medium/zqk-silhueta.png"
+            },
+            {
+                id: 12,
+                name: "Cold",
+                fullName: "Marcelo \"coldzera\" David",
+                era: "2012-hoje",
+                region: "Brazil",
+                teams: ["Luminosity", "SK Gaming", "MIBR", "FaZe Clan", "00Nation", "Legacy", "RED Canids"],
+                titles: ["Major MLG Columbus 2016", "Major ESL One Cologne 2016", "IEM Sydney 2017", "EPICENTER 2017"],
+                description: "Bicampeão de Major e duas vezes melhor do mundo, coldzera dispensa apresentações. Curiosamente, a AWP nunca foi sua função principal, mas sempre esteve ali como uma arma de confiança. Sua afinidade com a verdinha rendeu momentos inesquecíveis, incluindo o maior highlight da história do CS brasileiro: o lendário \"jumping double no scope\" contra a Liquid.",
+                videoLinks: ["https://www.youtube.com/watch?v=cjOVXdarUTs"],
+                fallenNotes: "Jumping double histórico",
+                category: "brazilian-legend",
+                status: "active",
+                revealDate: "2025-06-10",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2689/medium/coldzera-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2664/medium/coldzera-silhueta.png"
+            },
+            {
+                id: 13,
+                name: "Kaah",
+                fullName: "Karina \"Kaah\" Takahashi",
+                era: "2017-hoje",
+                region: "Brazil",
+                teams: ["NumberSix", "BootKamp", "Keyd Stars", "FURIA"],
+                titles: ["Brasil Game Cup Female 2019", "WESG 2021 Female Latin America", "BGS Esports 2024 Female"],
+                description: "Kaah foi eleita a melhor jogadora de Counter-Strike no Prêmio eSports Brasil em 2023 e já é considerada uma das maiores da história do país. Com uma coleção de títulos na cena feminina, também brilhou em competições internacionais, chegando ao posto de vice-campeã mundial.",
+                videoLinks: ["https://www.youtube.com/watch?v=XgJDCqmy18M"],
+                fallenNotes: "Dividir org com ela, vídeo do FalleN elogiando",
+                category: "female",
+                status: "active",
+                revealDate: "2025-06-11",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2676/medium/kah-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2661/medium/kah-silhueta.png"
+            },
+            {
+                id: 14,
+                name: "Nqz",
+                fullName: "Lucas \"nqz\" Soares",
+                era: "2019-hoje",
+                region: "Brazil",
+                teams: ["DETONA", "9z", "00Nation", "Legacy", "paiN Gaming"],
+                titles: ["GC Masters VI", "Pinnacle Cup Brasil #1", "CCT South America 1 e 2"],
+                description: "Com apenas 20 anos, nqz é um dos nomes mais jovens a ser homenageado no nosso Hall da Fama. Apesar da pouca idade, carrega uma bagagem respeitável: já defendeu organizações de elite, disputou um Major e é apontado por muitos como o melhor AWPer brasileiro da atualidade.",
+                videoLinks: ["https://www.youtube.com/watch?v=35ijwno-_x4"],
+                fallenNotes: "Presente e futuro da sniper nacional",
+                category: "brazilian-active",
+                status: "active",
+                revealDate: "2025-06-12",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2684/medium/nqz-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2655/medium/nqz-silhueta.png"
+            },
+            {
+                id: 15,
+                name: "Yungher",
+                fullName: "Giovanna \"Yungher\" Yungh",
+                era: "2018-hoje",
+                region: "Brazil",
+                teams: ["Black Dragons", "B4", "Fluxo", "MIBR"],
+                titles: ["MEG Female 2022", "Gamers Club Masters Feminina VI", "CBGE Copa Rio 2024"],
+                description: "Eleita a melhor jogadora do Brasil no Prêmio eSports Brasil 2024, Yungher é a prova viva de que gênero é apenas um detalhe no Counter-Strike. Além de empilhar conquistas no cenário feminino e disputar diversos mundiais, ela também brilhou contra equipes masculinas.",
+                videoLinks: ["https://www.youtube.com/watch?v=Hx5j6JZj02U", "https://www.youtube.com/watch?v=bnuKQ4W_rF0"],
+                fallenNotes: "Quebra barreiras dentro e fora do servidor",
+                category: "female",
+                status: "active",
+                revealDate: "2025-06-13",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2677/medium/yungher-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2659/medium/yungher-silhueta.png"
+            },
+            {
+                id: 16,
+                name: "arT",
+                fullName: "Andrei \"arT\" Piovezan",
+                era: "2016-hoje",
+                region: "Brazil",
+                teams: ["Ilha da Macacada", "INTZ", "FURIA", "Fluxo"],
+                titles: ["DreamHack Masters Spring 2020: North America", "ESL Pro League Season 12: North America", "PGL Major Antwerp 2022: American RMR"],
+                description: "Entre todos os AWPers da história do Counter-Strike, arT talvez seja o mais agressivo e imprevisível. Com um estilo único que foge completamente do arquétipo tradicional do sniper, ele transformou a AWP em uma extensão do seu jogo rápido e ousado. Capitão, AWPer e estrategista, arT é sinônimo de coragem e inovação no CS brasileiro.",
+                videoLinks: ["https://www.youtube.com/watch?v=RJOj2Dk4FkM"],
+                fallenNotes: "Estilo não normal para AWP, quando jogaram juntos",
+                category: "brazilian-active",
+                status: "active",
+                revealDate: "2025-06-14",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2683/medium/art-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2666/medium/art-silhueta.png"
+            },
+            {
+                id: 17,
+                name: "ANa",
+                fullName: "Ana \"ANa\" Dumbravă",
+                era: "2015-hoje",
+                region: "International",
+                teams: ["Assassins", "Galaxy Racer", "Nigma Galaxy", "Imperial"],
+                titles: ["ESL Impact League Season 1-6", "GIRLGAMER Esports Festival 2019, 2022", "ESL Impact Valencia 2022"],
+                description: "ANa é, hoje, uma das AWPers mais prestigiadas do cenário feminino mundial de Counter-Strike. Com mira afiada, leitura de jogo agressiva, transformou highlights e títulos mundiais em rotina. Referência para jogadoras do mundo inteiro, é muito considerada pela nova geração.",
+                videoLinks: ["https://www.youtube.com/watch?v=4Zcj69UCF4c"],
+                fallenNotes: "Confronto contra ANa na Mirage",
+                category: "female",
+                status: "active",
+                revealDate: "2025-06-15",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2695/medium/ana-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2673/medium/ana-silhueta.png"
+            },
+            {
+                id: 18,
+                name: "DSN",
+                fullName: "Harley \"dsn\" Örwall",
+                era: "2002-2011",
+                region: "International",
+                teams: ["Gamepoint", "XPerience.se", "Gamers.nu", "Begrip", "Eyeballers", "Fnatic"],
+                titles: ["GameGune 2004, 2007, 2010", "CPL Singapore 2005, 2006", "IEM 3, 4 e 5"],
+                description: "Campeão. Essa é a palavra que define dsn. Durante sua carreira, empilhou troféus e consolidou uma das trajetórias mais vitoriosas do Counter-Strike mundial. Foi eleito o melhor jogador do mundo em 2007 pelo Esports Awards e, em 2009, reconhecido pela HLTV como o 4º melhor AWPer da década.",
+                videoLinks: ["https://www.youtube.com/watch?v=SNxIEB9nvxk"],
+                fallenNotes: "Campeão nato da Fnatic",
+                category: "international-legend",
+                status: "retired",
+                revealDate: "2025-06-16",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2681/medium/dsn-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2700/medium/dsn-silhueta.png"
+            },
+            {
+                id: 19,
+                name: "markeloff",
+                fullName: "Jeghor \"markeloff\" Markelov",
+                era: "2004-2018",
+                region: "International",
+                teams: ["HellRaisers", "NAVI", "Astana Dragons", "Flipsid3 Tactics"],
+                titles: ["IEM IV, V", "ESWC 2010", "WCG 2010", "DreamHack Winter 2010"],
+                description: "Markeloff é, para muitos, o maior AWPer da história do Counter-Strike 1.6 e um dos nomes mais temidos que o jogo já viu. Seu auge veio em 2010, com a lendária Natus Vincere (Na'Vi), quando venceu os três maiores campeonatos do mundo em um único ano: IEM, ESWC e WCG — um feito inédito.",
+                videoLinks: ["https://www.youtube.com/watch?v=haMmUNwA78Q"],
+                fallenNotes: "Maior AWPer do CS 1.6",
+                category: "international-legend",
+                status: "retired",
+                revealDate: "2025-06-17",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2692/medium/markeloff-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2700/medium/markeloff-silhueta.png"
+            },
+            {
+                id: 20,
+                name: "s1mple",
+                fullName: "Oleksandr \"s1mple\" Kostyljev",
+                era: "2013-hoje",
+                region: "International",
+                teams: ["HellRaisers", "Team Liquid", "NAVI", "FaZe"],
+                titles: ["PGL Major Stockholm 2021", "IEM Cologne 2021", "BLAST Premier: World Final 2021"],
+                description: "Desde suas primeiras equipes, s1mple sempre foi o centro das atenções — às vezes pela personalidade forte, mas principalmente pelo talento fora do comum. Polêmico, explosivo e genial, deixou sua marca em cada servidor que pisou. Após anos de atuações históricas, alcançou seu maior objetivo em 2021, ao levantar a tão sonhada taça de Major.",
+                videoLinks: ["https://www.youtube.com/watch?v=E9RG_hkzqB4"],
+                fallenNotes: "Not going/como seria jogar ao lado dele",
+                category: "international-active",
+                status: "active",
+                revealDate: "2025-06-18",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2681/medium/s1mple-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2700/medium/s1mple-silhueta.png"
+            },
+            {
+                id: 21,
+                name: "kennyS",
+                fullName: "Kenny \"kennyS\" Schrub",
+                era: "2011-2023",
+                region: "International",
+                teams: ["VeryGames", "LDLC", "Titan", "EnVyUs", "G2", "Falcons"],
+                titles: ["DreamHack Masters Malmö 2017", "ESL Pro League Season 5 - Finals", "WESG 2016"],
+                description: "Ídolo de uma geração, kennyS ficou eternizado como o mestre dos flickshots. Com reflexos absurdos e uma velocidade de disparo fora do comum, o francês dominou o cenário e foi considerado o melhor AWPer do mundo até 2015 — ano em que venceu o prêmio de Jogador de Esports do Ano no The Game Awards.",
+                videoLinks: ["https://www.youtube.com/watch?v=imO-mrsdLcs"],
+                fallenNotes: "Mestre dos flickshots",
+                category: "international-legend",
+                status: "retired",
+                revealDate: "2025-06-19",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2691/medium/kennys-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2671/medium/kennys-silhueta.png"
+            },
+            {
+                id: 22,
+                name: "GuardiaN",
+                fullName: "Ladislav \"GuardiaN\" Kovács",
+                era: "2006-2025",
+                region: "International",
+                teams: ["Reason Gaming", "3DMAX", "Virtus.Pro", "NAVI", "FaZe", "BC.Game"],
+                titles: ["ESL One: New York 2016, 2017", "ELEAGUE Premier 2017", "ESL One: Belo Horizonte 2018"],
+                description: "GuardiaN foi um sniper cirúrgico, tático, preciso e praticamente incapaz de errar. Com posicionamento impecável e leitura de jogo acima da média, tornou-se uma ameaça constante. Durante seu auge, era tão dominante que os adversários precisavam criar planos de jogo específicos só para tentar neutralizá-lo.",
+                videoLinks: ["https://www.youtube.com/watch?v=yVHOAVrLgvM"],
+                fallenNotes: "Precisão cirúrgica",
+                category: "international-legend",
+                status: "active",
+                revealDate: "2025-06-20",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2694/medium/guardian-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2669/medium/guardian-silhueta.png"
+            },
+            {
+                id: 23,
+                name: "dev1ce",
+                fullName: "Nicolai \"dev1ce\" Reedtz",
+                era: "2009-hoje",
+                region: "International",
+                teams: ["Copenhagen Wolves", "Dignitas", "Team SoloMid", "Astralis", "Ninjas in Pyjamas"],
+                titles: ["ELEAGUE Major Atlanta 2017", "FACEIT Major: London 2018", "IEM Katowice Major 2019", "StarLadder Berlin Major 2019"],
+                description: "Quem é o verdadeiro GOAT do CS:GO? Para muitos, a resposta é simples: dev1ce. AWPer da era mais dominante da história do jogo, venceu 4 Majors e foi eleito MVP em dois deles, construindo uma carreira marcada por consistência, títulos e impacto em alto nível.",
+                videoLinks: ["https://www.youtube.com/watch?v=-sMH1ALFNHM"],
+                fallenNotes: "Dev1ce se inspirava e estudava o FalleN",
+                category: "international-active",
+                status: "active",
+                revealDate: "2025-06-21",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2693/medium/dev1ce-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2668/medium/dev1ce-silhueta.png"
+            },
+            {
+                id: 24,
+                name: "ZywOo",
+                fullName: "Mathieu \"ZywOo\" Herbaut",
+                era: "2016-hoje",
+                region: "International",
+                teams: ["WySix Team", "against All authority", "Vitality"],
+                titles: ["BLAST.tv Paris Major 2023", "IEM Cologne 2024", "IEM Katowice 2025"],
+                description: "Maior MVP da história do Counter-Strike, campeão de Major em casa e dono dos títulos mais importantes do cenário — tudo isso com apenas 24 anos. ZywOo é o prodígio francês que devolveu o sorriso aos torcedores da França e elevou o país ao topo do CS.",
+                videoLinks: ["https://www.youtube.com/watch?v=B9mIT15FE_Y"],
+                fallenNotes: "Prodígio francês",
+                category: "international-active",
+                status: "active",
+                revealDate: "2025-06-22",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2696/medium/zywoo-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2672/medium/zywoo-silhueta.png"
+            },
+            {
+                id: 25,
+                name: "m0NESY",
+                fullName: "Ilya \"m0NESY\" Osipov",
+                era: "2019-hoje",
+                region: "International",
+                teams: ["NAVI Junior", "G2", "Falcons"],
+                titles: ["BLAST Premier: World Final 2022, 2024", "IEM Katowice 2023", "IEM Cologne 2023"],
+                description: "m0NESY é o tipo de jogador que dá significado a palavra \"fenômeno\". Ainda menor de idade, bastou uma chance no cenário profissional para o russo mostrar ao mundo seu potencial absurdo. Com mira afiada, movimentação veloz e uma mente estratégica, ele se destaca não só pela habilidade, mas também por ser um estudioso do jogo.",
+                videoLinks: ["https://www.youtube.com/watch?v=RaI82xO6yjs"],
+                fallenNotes: "Fenômeno jovem",
+                category: "international-active",
+                status: "active",
+                revealDate: "2025-06-23",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2681/medium/m0nesy-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2700/medium/m0nesy-silhueta.png"
+            },
+            {
+                id: 26,
+                name: "molodoy",
+                fullName: "Danil \"molodoy\" Golubenko",
+                era: "2020-hoje",
+                region: "International",
+                teams: ["ALLINERS", "DMS", "AMKAL", "FURIA"],
+                titles: ["META Cup Season 1"],
+                description: "Molodoy acaba de ser apresentado ao mundo do Counter-Strike competitivo com o peso de um legado nas costas e o brilho de uma nova era nos olhos. Aos 20 anos, foi o escolhido para assumir a AWP de FalleN e liderar a internacionalização da FURIA. Com a mentoria direta de Fallen, a FURIA aposta em transformar Molodoy em um dos maiores do mundo.",
+                videoLinks: ["https://www.twitch.tv/gaules/clip/ElegantSeductiveHerringSSSsss-Da-jJ867SZ0goPTo"],
+                fallenNotes: "Sucessor na FURIA",
+                category: "international-active",
+                status: "active",
+                revealDate: "2025-06-24",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2681/medium/molodoy-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2667/medium/molodoy-silhueta.png"
+            },
+            {
+                id: 27,
+                name: "FalleN",
+                fullName: "Gabriel \"FalleN\" Toledo",
+                era: "2006-hoje",
+                region: "Brazil",
+                teams: ["CNB", "MIBR", "Luminosity", "SK Gaming", "Liquid", "Imperial", "FURIA"],
+                titles: ["Major MLG Columbus 2016", "Major ESL One Cologne 2016", "ESL Pro League 3", "IEM Sydney 2017"],
+                description: "O Maestro. FalleN não é apenas um dos maiores AWPers da história do Counter-Strike brasileiro, mas também o líder que levou o Brasil ao topo mundial. Bicampeão de Major, capitão visionário e mentor de uma geração inteira de jogadores. Sua influência transcende as jogadas: ele moldou a cena competitiva brasileira e inspirou milhões ao redor do mundo.",
+                videoLinks: ["https://www.youtube.com/watch?v=YawrqCturK8"],
+                fallenNotes: "O próprio Maestro",
+                category: "brazilian-legend",
+                status: "active",
+                revealDate: "2025-06-25",
+                stickerImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2688/medium/fallen-sticker.png",
+                silhouetteImage: "https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2651/medium/fallen-silhueta.png"
             }
         ];
 
@@ -1065,6 +1494,28 @@
             };
         }
 
+        // Check if a legend is revealed
+        function isLegendRevealed(legend) {
+            const today = new Date();
+            const revealDate = new Date(legend.revealDate);
+
+            // Set time to start of day for comparison
+            today.setHours(0, 0, 0, 0);
+            revealDate.setHours(0, 0, 0, 0);
+
+            return today >= revealDate;
+        }
+
+        // Get the appropriate image for a legend
+        function getLegendImage(legend) {
+            return isLegendRevealed(legend) ? legend.stickerImage : legend.silhouetteImage;
+        }
+
+        // Get the display name for a legend
+        function getLegendDisplayName(legend) {
+            return isLegendRevealed(legend) ? legend.name : "EM BREVE";
+        }
+
         // Format time function
         function formatTime(value) {
             return value.toString().padStart(2, '0');
@@ -1086,19 +1537,38 @@
 
         // Create legend card function
         function createLegendCard(legend) {
+            const isRevealed = isLegendRevealed(legend);
+            const displayName = getLegendDisplayName(legend);
+            const imageUrl = getLegendImage(legend);
+
             const card = document.createElement('div');
             card.className = 'card-wrapper';
+
+            // Create the description content only for revealed legends
+            const descriptionContent = isRevealed ? `
+                <div class="description">
+                    <div class="tab">
+                        Biografia <span class="arrow">↗</span>
+                    </div>
+                    <div class="legend-achievement">${legend.fallenNotes}</div>
+                    <p>${legend.description}</p>
+                    <div class="legend-date">${legend.era} • ${legend.region}</div>
+                </div>
+            ` : '';
+
             card.innerHTML = `
-                <div class="profile-card">
-                    <div class="card-image"></div>
+                <div class="profile-card ${!isRevealed ? 'unrevealed' : ''}">
+                    <div class="card-image" style="background-image: url('${imageUrl}')"></div>
                     <div class="card-footer">
-                        <h3 class="nickname">${legend.name}</h3>
-                        <button class="bio-btn">
+                        <h3 class="nickname ${!isRevealed ? 'coming-soon' : ''}">${displayName}</h3>
+                        <button class="bio-btn" ${!isRevealed ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
                             Biografia
                         </button>
                     </div>
+                    ${descriptionContent}
                 </div>
             `;
+
             return card;
         }
 
