@@ -1,0 +1,39 @@
+# Sample Images for AWP Legacy Kits
+
+## Required Images
+
+### Kit 1 - T-shirt
+- **File**: tshirt-awp-legacy.jpg
+- **Size**: 800x800px
+- **Description**: Front view of AWP Legacy gaming t-shirt
+- **Colors**: Black/dark theme with golden AWP details
+
+### Kit 2 - Hoodie  
+- **File**: hoodie-awp-legacy.jpg
+- **Size**: 800x800px
+- **Description**: Front view of AWP Legacy gaming hoodie
+- **Colors**: Premium dark hoodie with golden AWP branding
+
+## Optional Additional Images
+- tshirt-back.jpg (back view)
+- hoodie-back.jpg (back view)
+- tshirt-detail.jpg (close-up details)
+- hoodie-detail.jpg (close-up details)
+
+## Image Specifications
+- Format: JPG or PNG
+- Resolution: 800x800px minimum
+- File size: Under 500KB each
+- Quality: High resolution for product detail
+- Aspect ratio: 1:1 (square) recommended
+
+## Instructions
+1. Place your images in this `/images/` directory
+2. Update the HTML file to uncomment the image tags
+3. Test the page to ensure images load correctly
+4. The page will automatically fall back to mockups if images fail to load
+
+## Example URLs for Testing
+You can use these free stock images for testing:
+- https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=800&fit=crop
+- https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800&h=800&fit=crop 

@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWP Legacy - Fallen Club</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        /* CSS Reset and Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #FFDE00;
+            --secondary-gold: #FFD700;
+            --accent-red: #FF0000;
+            --bg-black: #000000;
+            --bg-dark: #0a0a0a;
+            --text-white: #ffffff;
+            --text-gray: #cccccc;
+            --text-dark-gray: #808080;
+            --glass-bg: rgba(0, 0, 0, 0.8);
+            --glass-border: rgba(255, 222, 0, 0.3);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-black) url('./images/background.png') center/cover fixed;
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: -1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 50vh;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 8rem;
+            align-items: center;
+            padding: 4rem 0;
+        }
+
+        .hero-content {
+            padding: 4rem;
+            max-width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            color: var(--bg-black);
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(255, 222, 0, 0.3);
+        }
+
+        .hero-title {
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--text-white), var(--primary-gold));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 0.85;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            color: var(--accent-red);
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 2.5rem;
+            text-shadow: 0 0 40px rgba(255, 0, 0, 0.6);
+            line-height: 0.85;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            font-weight: 400;
+            max-width: 85%;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        /* Hall of Legends CTA - Improved */
+        .hall-cta {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3.5rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            height: fit-content;
+            align-self: start;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .hall-cta:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 20px 60px rgba(255, 222, 0, 0.2);
+        }
+
+        .hall-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+        }
+
+        .hall-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2.2rem;
+            color: var(--bg-black);
+            box-shadow: 0 8px 25px rgba(255, 222, 0, 0.4);
+        }
+
+        .hall-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-gold);
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .hall-description {
+            color: var(--text-gray);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Kits Section - Enhanced */
+        .kits-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .kit-nav-btn {
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            color: var(--text-gray);
+            padding: 1.2rem 2.5rem;
+            border-radius: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kit-nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .kit-nav-btn:hover::before,
+        .kit-nav-btn.active::before {
+            left: 0;
+        }
+
+        .kit-nav-btn:hover,
+        .kit-nav-btn.active {
+            border-color: var(--primary-gold);
+            color: var(--bg-black);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 222, 0, 0.3);
+        }
+
+        .kit-display {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+
+        /* Main Product Section */
+        .main-product-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .main-product-image {
+            width: 100%;
+            height: 500px;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .main-product-image:hover {
+            border-color: var(--primary-gold);
+            transform: scale(1.02);
+        }
+
+        .main-product-info {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-product-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+        }
+
+        /* Product Details Section */
+        .product-details-section {
+            margin-bottom: 4rem;
+        }
+
+        .detail-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(255, 222, 0, 0.1);
+        }
+
+        .detail-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        .detail-item:nth-child(even)>* {
+            direction: ltr;
+        }
+
+        .detail-image {
+            width: 100%;
+            height: 200px;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .detail-image:hover {
+            border-color: var(--primary-gold);
+            transform: scale(1.02);
+        }
+
+        .detail-text {
+            padding: 1rem;
+        }
+
+        .detail-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .detail-description {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Kit Items Section */
+        .kit-items-section {
+            margin-bottom: 3rem;
+        }
+
+        .kit-items-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-gold);
+            margin-bottom: 2rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .kit-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .kit-item-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .kit-item-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 15px 30px rgba(255, 222, 0, 0.2);
+        }
+
+        .kit-item-image {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, var(--glass-bg), rgba(255, 222, 0, 0.1));
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            position: relative;
+        }
+
+        .kit-item-amount {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            color: var(--bg-black);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(255, 222, 0, 0.4);
+        }
+
+        .kit-item-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-white);
+            margin-bottom: 0.5rem;
+        }
+
+        .kit-item-description {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            line-height: 1.4;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            color: var(--bg-black);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kit-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .kit-subtitle {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .kit-cta-section {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* Experiences Section */
+        .experiences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .experience-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 20px 40px rgba(255, 222, 0, 0.2);
+        }
+
+        .experience-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--bg-black);
+        }
+
+        .experience-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .experience-description {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Golden Key Section */
+        .golden-key-section {
+            background: linear-gradient(135deg, rgba(255, 222, 0, 0.1), rgba(255, 215, 0, 0.05));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .key-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .key-visual {
+            position: relative;
+            text-align: center;
+        }
+
+        .key-icon {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 4rem;
+            color: var(--bg-black);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .key-info {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .key-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .key-stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary-gold);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Treasure Hunt Section */
+        .treasure-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .treasure-visual {
+            position: relative;
+            text-align: center;
+        }
+
+        .treasure-map {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: var(--glass-bg);
+            border: 2px solid var(--primary-gold);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .treasure-map::before {
+            content: '🗺️';
+            font-size: 4rem;
+            opacity: 0.7;
+        }
+
+        .treasure-info {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        /* Hall of Legends Section */
+        .legends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .legend-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .legend-card:hover {
+            transform: scale(1.02);
+            border-color: var(--primary-gold);
+        }
+
+        .legend-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-black);
+            font-size: 3rem;
+            font-weight: 900;
+        }
+
+        .legend-content {
+            padding: 2rem;
+        }
+
+        .legend-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .legend-title {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .legend-description {
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .legend-stats {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1rem;
+        }
+
+        .legend-stat {
+            text-align: center;
+        }
+
+        .legend-stat-value {
+            font-weight: 700;
+            color: var(--primary-gold);
+        }
+
+        .legend-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+        }
+
+        /* Responsive Design - Enhanced */
+        @media (max-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+                text-align: center;
+                padding: 4rem 0;
+                min-height: 70vh;
+            }
+
+            .hero-content {
+                padding-right: 0;
+                order: 1;
+            }
+
+            .hero-title {
+                margin-bottom: 0.5rem;
+                font-size: clamp(2.5rem, 10vw, 4rem);
+            }
+
+            .hero-subtitle {
+                margin-bottom: 2rem;
+                font-size: clamp(1.8rem, 8vw, 3rem);
+            }
+
+            .hero-description {
+                max-width: 100%;
+                margin-bottom: 2.5rem;
+                font-size: 1rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .hero-cta .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .hall-cta {
+                order: 2;
+                margin-top: 2rem;
+                margin-left: 0;
+                padding: 2.5rem 2rem;
+            }
+
+            .hall-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+
+            .hall-title {
+                font-size: 1.5rem;
+            }
+
+            .hall-description {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .kits-navigation {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .kit-nav-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .main-product-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .main-product-image {
+                height: 300px;
+            }
+
+            .main-product-info {
+                padding: 2.5rem 2rem;
+            }
+
+            .kit-title {
+                font-size: 1.8rem;
+            }
+
+            .detail-item {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .detail-item:nth-child(even) {
+                direction: ltr;
+            }
+
+            .detail-image {
+                height: 150px;
+            }
+
+            .detail-title {
+                font-size: 1.1rem;
+            }
+
+            .kit-items-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .kit-item-card {
+                padding: 1.2rem;
+            }
+
+            .kit-item-image {
+                height: 100px;
+                font-size: 1.5rem;
+            }
+
+            .kit-item-amount {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+
+            .key-container,
+            .treasure-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .experiences-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .legends-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section {
+                padding: 3rem 0;
+            }
+
+            .main-product-info {
+                padding: 2rem 1.5rem;
+            }
+
+            .hall-cta {
+                padding: 2rem 1.5rem;
+            }
+
+            .kit-items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-item {
+                padding: 1.5rem 0;
+            }
+
+            .kit-items-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            color: var(--bg-black);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 222, 0, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-gold);
+            color: var(--bg-black);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-badge">Fallen Club Exclusive</span>
+                <h1 class="hero-title">AWP</h1>
+                <h2 class="hero-subtitle">LEGACY</h2>
+                <p class="hero-description">
+                    Uma homenagem aos lendários AWPers que marcaram a história do Counter-Strike.
+                    Descubra kits exclusivos, experiências únicas e tribute aos maiores atiradores de elite do mundo.
+                </p>
+                <div class="hero-cta">
+                    <a href="#kits" class="btn btn-primary">Descobrir Kits</a>
+                    <a href="#hall-of-legends" class="btn btn-outline">Ver Lendas</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Kits Section -->
+    <section id="kits" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">AWP Legacy Kits</h2>
+                <p class="section-subtitle">Escolha seu kit exclusivo com produtos oficiais e experiências únicas</p>
+            </div>
+
+            <div class="kits-navigation">
+                <button class="kit-nav-btn active" data-kit="kit1">Kit Camiseta</button>
+                <button class="kit-nav-btn" data-kit="kit2">Kit Moletom</button>
+            </div>
+
+            <div class="kit-display" id="kit1">
+                <!-- Main Product Section -->
+                <div class="main-product-section">
+                    <div class="main-product-image">
+                        <span class="product-badge">Exclusivo</span>
+                        Camiseta AWP Legacy<br>
+                        <small style="color: var(--text-dark-gray);">Vista frontal completa</small>
+                    </div>
+                    <div class="main-product-info">
+                        <h3 class="kit-title">Kit Camiseta AWP Legacy</h3>
+                        <p class="kit-subtitle">O kit perfeito para iniciar sua jornada no universo AWP Legacy</p>
+                    </div>
+                </div>
+
+                <!-- Product Details Section -->
+                <div class="product-details-section">
+                    <div class="detail-item">
+                        <div class="detail-text">
+                            <h4 class="detail-title">Tecido Premium</h4>
+                            <p class="detail-description">100% Algodão Premium com toque macio e durabilidade
+                                excepcional. Resistente a lavagens e com caimento perfeito.</p>
+                        </div>
+                        <div class="detail-image">
+                            Detalhes do tecido<br>
+                            <small style="color: var(--text-dark-gray);">Qualidade superior</small>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-image">
+                            Estampa AWP Legacy<br>
+                            <small style="color: var(--text-dark-gray);">Serigrafia HD</small>
+                        </div>
+                        <div class="detail-text">
+                            <h4 class="detail-title">Estampa Exclusiva</h4>
+                            <p class="detail-description">Serigrafia de alta qualidade com design exclusivo AWP Legacy.
+                                Cores vibrantes que não desbotam.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kit Items Section -->
+                <div class="kit-items-section">
+                    <h3 class="kit-items-title">Itens Inclusos</h3>
+                    <div class="kit-items-grid">
+                        <div class="kit-item-card">
+                            <div class="kit-item-image">
+                                👕
+                                <span class="kit-item-amount">1</span>
+                            </div>
+                            <div class="kit-item-title">Camiseta Oficial AWP Legacy</div>
+                            <div class="kit-item-description">100% Algodão Premium</div>
+                        </div>
+                        <div class="kit-item-card">
+                            <div class="kit-item-image">
+                                🃏
+                                <span class="kit-item-amount">1</span>
+                            </div>
+                            <div class="kit-item-title">Card Físico do Fallen</div>
+                            <div class="kit-item-description">Edição Especial Holográfica</div>
+                        </div>
+                        <div class="kit-item-card">
+                            <div class="kit-item-image">
+                                🏷️
+                                <span class="kit-item-amount">6</span>
+                            </div>
+                            <div class="kit-item-title">Adesivos Fallenzitos</div>
+                            <div class="kit-item-description">Designs exclusivos</div>
+                        </div>
+                        <div class="kit-item-card">
+                            <div class="kit-item-image">
+                                🎫
+                                <span class="kit-item-amount">1</span>
+                            </div>
+                            <div class="kit-item-title">Golden Ticket</div>
+                            <div class="kit-item-description">Para sistema de cases</div>
+                        </div>
+                        <div class="kit-item-card">
+                            <div class="kit-item-image">
+                                💬
+                                <span class="kit-item-amount">1</span>
+                            </div>
+                            <div class="kit-item-title">Acesso VIP Discord</div>
+                            <div class="kit-item-description">Grupo exclusivo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Section -->
+                <div class="kit-cta-section">
+                    <a href="https://fallenzitos.com.br/products/awp-legacy-kits" class="btn btn-primary">Comprar
+                        Agora</a>
+                </div>
+            </div>
+
+            <div class="kit-display" id="kit2" style="display: none;">
+                <!-- Main Product Section -->
+                <div class="main-product-section">
+                    <div class="main-product-image">
+                        <span class="product-badge">Premium</span>
+                        Moletom AWP Legacy<br>
+                        <small style="color: var(--text-dark-gray);">Vista frontal completa</small>
+                    </div>
+                    <div class="main-product-info">
+                        <h3 class="kit-title">Kit Moletom AWP Legacy</h3>
+                        <p class="kit-subtitle">A experiência completa para verdadeiros fãs do FalleN e do AWP</p>
+                    </div>
+                </div>
+
+                <!-- Product Details Section -->
+                <div class="product-details-section">
+                    <div class="detail-item">
+                        <div class="detail-text">
+                            <h4 class="detail-title">Capuz Ajustável</h4>
+                            <p class="detail-description">Capuz com cordão de ajuste personalizado. Design ergonômico
+                                para máximo conforto e estilo.</p>
+                        </div>
+                        <div class="detail-image">
+                            Capuz com cordão<br>
+                            <small style="color: var(--text-dark-gray);">Ajuste perfeito</small>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-image">
+                            Bolso canguru<br>
+                            <small style="color: var(--text-dark-gray);">Forrado premium</small>
+                        </div>
+                        <div class="detail-text">
+                            <h4 class="detail-title">Bolso Canguru</h4>
+                            <p class="detail-description">Bolso frontal amplo, forrado e reforçado. Perfeito para manter
+                                as mãos aquecidas e guardar objetos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kit Items Section -->
+                <div class="kit-items-section">
+                    <h3 class="kit-items-title">Itens Inclusos</h3>
+                    <div class="kit-items-grid">
+                        <div class="kit-item-card">
+                            <div class="kit-item-image">
+                                🧥
+                                <span class="kit-item-amount">1</span>
+                            </div>
+                            <div class="kit-item-title">Moletom Oficial AWP Legacy</div>
+                            <div class="kit-item-description">Algodão + Poliéster Premium</div>
+                        </div>
+                        <div class="kit-item-card">
+                            <div class="kit-item-image">
+                                🃏
+                                <span class="kit-item-amount">1</span>
+                            </div>
+                            <div class="kit-item-title">Card Físico do Fallen</div>
+                            <div class="kit-item-description">Edição Especial Holográfica</div>
+                        </div>
+                        <div class="kit-item-card">
+                            <div class="kit-item-image">
+                                🏷️
+                                <span class="kit-item-amount">12</span>
+                            </div>
+                            <div class="kit-item-title">Adesivos Fallenzitos</div>
+                            <div class="kit-item-description">2 cartelas completas</div>
+                        </div>
+                        <div class="kit-item-card">
+                            <div class="kit-item-image">
+                                🎫
+                                <span class="kit-item-amount">2</span>
+                            </div>
+                            <div class="kit-item-title">Golden Tickets</div>
+                            <div class="kit-item-description">Para sistema de cases</div>
+                        </div>
+                        <div class="kit-item-card">
+                            <div class="kit-item-image">
+                                💬
+                                <span class="kit-item-amount">1</span>
+                            </div>
+                            <div class="kit-item-title">Acesso VIP Discord</div>
+                            <div class="kit-item-description">Grupo exclusivo</div>
+                        </div>
+                        <div class="kit-item-card">
+                            <div class="kit-item-image">
+                                🚀
+                                <span class="kit-item-amount">1</span>
+                            </div>
+                            <div class="kit-item-title">Acesso Antecipado</div>
+                            <div class="kit-item-description">Novos drops primeiro</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Section -->
+                <div class="kit-cta-section">
+                    <a href="https://fallenzitos.com.br/products/awp-legacy-kits" class="btn btn-primary">Comprar
+                        Agora</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Extra Experiences Section -->
+    <section id="experiences" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Experiências Exclusivas</h2>
+                <p class="section-subtitle">Além dos produtos físicos, desfrute de experiências únicas como membro da
+                    Fallen Club</p>
+            </div>
+
+            <div class="experiences-grid">
+                <div class="experience-card">
+                    <div class="experience-icon">🎯</div>
+                    <h3 class="experience-title">WorkShop com FALLEN</h3>
+                    <p class="experience-description">Acesso exclusivo a workshops de CS com Gabriel "FalleN" Toledo,
+                        aprenda diretamente com o lendário AWPer brasileiro.</p>
+                </div>
+
+                <div class="experience-card">
+                    <div class="experience-icon">🏆</div>
+                    <h3 class="experience-title">Campeonato 1x1</h3>
+                    <p class="experience-description">Participe de torneios exclusivos 1v1 com prêmios incríveis e
+                        chance de entrar no Hall of Fame da comunidade.</p>
+                </div>
+
+                <div class="experience-card">
+                    <div class="experience-icon">💬</div>
+                    <h3 class="experience-title">Grupo Fechado</h3>
+                    <p class="experience-description">Entrada em grupos fechados no Discord e WhatsApp para interagir
+                        diretamente com outros fãs e receber conteúdo exclusivo.</p>
+                </div>
+
+                <div class="experience-card">
+                    <div class="experience-icon">⚡</div>
+                    <h3 class="experience-title">Acesso Antecipado</h3>
+                    <p class="experience-description">Seja o primeiro a ter acesso a novos drops, produtos e
+                        experiências antes do lançamento público.</p>
+                </div>
+
+                <div class="experience-card">
+                    <div class="experience-icon">🗺️</div>
+                    <h3 class="experience-title">Caça Tesouros Virtual</h3>
+                    <p class="experience-description">Participe de caças ao tesouro virtuais com puzzles e desafios para
+                        ganhar prêmios exclusivos e Golden Keys.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Golden Key Section -->
+    <section id="golden-key" class="section golden-key-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Golden Key</h2>
+                <p class="section-subtitle">Use suas Golden Keys para abrir cases exclusivos com mais de 40 produtos
+                    diferentes</p>
+            </div>
+
+            <div class="key-container">
+                <div class="key-visual">
+                    <div class="key-icon">🔑</div>
+                    <h3 style="color: var(--primary-gold); font-size: 1.5rem; margin-bottom: 1rem;">Sistema de Cases
+                    </h3>
+                    <p style="color: var(--text-gray);">Inspirado no sistema de cases do CS:GO, use suas chaves para
+                        desbloquear prêmios incríveis!</p>
+                </div>
+                <div class="key-info">
+                    <div class="key-stats">
+                        <div class="key-stat">
+                            <span class="stat-number">1-2</span>
+                            <span class="stat-label">Chaves por Kit</span>
+                        </div>
+                        <div class="key-stat">
+                            <span class="stat-number">40+</span>
+                            <span class="stat-label">Produtos Diferentes</span>
+                        </div>
+                        <div class="key-stat">
+                            <span class="stat-number">100K+</span>
+                            <span class="stat-label">Em Prêmios</span>
+                        </div>
+                        <div class="key-stat">
+                            <span class="stat-number">∞</span>
+                            <span class="stat-label">Possibilidades</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-primary">Abrir Cases</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Treasure Hunt Section -->
+    <section id="treasure-hunt" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Caça ao Tesouro</h2>
+                <p class="section-subtitle">Resolva mistérios, encontre pistas e ganhe Golden Keys exclusivas</p>
+            </div>
+
+            <div class="treasure-container">
+                <div class="treasure-visual">
+                    <div class="treasure-map"></div>
+                    <h3 style="color: var(--primary-gold); font-size: 1.5rem; margin-top: 2rem;">Aventura Misteriosa
+                    </h3>
+                </div>
+                <div class="treasure-info">
+                    <h3 style="color: var(--primary-gold); font-size: 1.8rem; margin-bottom: 2rem;">Como Funciona</h3>
+                    <ul style="list-style: none; margin-bottom: 2rem;">
+                        <li style="margin-bottom: 1rem; color: var(--text-gray);">🔍 Resolva puzzles e decifre pistas
+                        </li>
+                        <li style="margin-bottom: 1rem; color: var(--text-gray);">🗺️ Explore mapas interativos</li>
+                        <li style="margin-bottom: 1rem; color: var(--text-gray);">🏆 Ganhe Golden Keys como recompensa
+                        </li>
+                        <li style="margin-bottom: 1rem; color: var(--text-gray);">👥 Compete com outros caçadores</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Começar Caçada</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hall of Legends Section -->
+    <section id="hall-of-legends" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Hall of Legends</h2>
+                <p class="section-subtitle">Uma homenagem aos maiores AWPers da história do Counter-Strike</p>
+            </div>
+
+            <div class="legends-grid">
+                <div class="legend-card">
+                    <div class="legend-image">FalleN</div>
+                    <div class="legend-content">
+                        <h3 class="legend-name">Gabriel "FalleN" Toledo</h3>
+                        <p class="legend-title">O Maestro Brasileiro</p>
+                        <p class="legend-description">Líder da SK Gaming e MIBR, FalleN revolucionou o CS brasileiro e
+                            mundial com sua precisão cirúrgica no AWP.</p>
+                        <div class="legend-stats">
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">2x</div>
+                                <div class="legend-stat-label">Major Winner</div>
+                            </div>
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">1.08</div>
+                                <div class="legend-stat-label">Rating 2.0</div>
+                            </div>
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">0.81</div>
+                                <div class="legend-stat-label">AWP K/D</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legend-card">
+                    <div class="legend-image">s1mple</div>
+                    <div class="legend-content">
+                        <h3 class="legend-name">Oleksandr "s1mple" Kostyliev</h3>
+                        <p class="legend-title">O Fenômeno Ucraniano</p>
+                        <p class="legend-description">Considerado por muitos o melhor jogador de CS:GO de todos os
+                            tempos, s1mple redefiniu os limites do AWP.</p>
+                        <div class="legend-stats">
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">1x</div>
+                                <div class="legend-stat-label">Major Winner</div>
+                            </div>
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">1.28</div>
+                                <div class="legend-stat-label">Rating 2.0</div>
+                            </div>
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">1.15</div>
+                                <div class="legend-stat-label">AWP K/D</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legend-card">
+                    <div class="legend-image">kennyS</div>
+                    <div class="legend-content">
+                        <h3 class="legend-name">Kenny "kennyS" Schrub</h3>
+                        <p class="legend-title">O Mago Francês</p>
+                        <p class="legend-description">Conhecido por suas jogadas espetaculares e quick-scopes
+                            impossíveis, kennyS é uma lenda viva do AWP.</p>
+                        <div class="legend-stats">
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">0x</div>
+                                <div class="legend-stat-label">Major Winner</div>
+                            </div>
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">1.09</div>
+                                <div class="legend-stat-label">Rating 2.0</div>
+                            </div>
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">1.05</div>
+                                <div class="legend-stat-label">AWP K/D</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legend-card">
+                    <div class="legend-image">GuardiaN</div>
+                    <div class="legend-content">
+                        <h3 class="legend-name">Ladislav "GuardiaN" Kovács</h3>
+                        <p class="legend-title">O Guardião Eslovaco</p>
+                        <p class="legend-description">Um dos AWPers mais consistentes da história, GuardiaN foi peça
+                            fundamental no sucesso da Na'Vi por anos.</p>
+                        <div class="legend-stats">
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">0x</div>
+                                <div class="legend-stat-label">Major Winner</div>
+                            </div>
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">1.06</div>
+                                <div class="legend-stat-label">Rating 2.0</div>
+                            </div>
+                            <div class="legend-stat">
+                                <div class="legend-stat-value">0.98</div>
+                                <div class="legend-stat-label">AWP K/D</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Kit navigation
+        document.querySelectorAll('.kit-nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.kit-nav-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                // Hide all kits
+                document.querySelectorAll('.kit-display').forEach(kit => kit.style.display = 'none');
+                // Show selected kit
+                const targetKit = btn.getAttribute('data-kit');
+                document.getElementById(targetKit).style.display = 'grid';
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
