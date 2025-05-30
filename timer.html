@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Countdown Timer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Yellowtail&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Yellowtail&family=Montserrat:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <style>
         * {
@@ -689,6 +690,7 @@
             background-position: center;
             background-repeat: no-repeat;
             background-image: linear-gradient(135deg, #ff0033 0%, #9933ff 100%);
+            position: relative;
         }
 
         /* Footer with nickname and button */
@@ -728,22 +730,28 @@
         /* Description hover */
         .description {
             position: absolute;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: linear-gradient(to bottom, #00e0ff, #b83fff);
-            padding: 50px 16px 16px;
+            padding: 20px 16px 16px;
             color: #111;
+            font-family: 'Montserrat', sans-serif;
             font-size: 0.85rem;
             line-height: 1.4;
             opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.3s, transform 0.3s;
+            transition: opacity 0.3s;
             pointer-events: none;
-            border-radius: 12px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-sizing: border-box;
         }
 
         .profile-card:hover .description {
             opacity: 1;
-            transform: translateY(0);
             pointer-events: auto;
         }
 
@@ -778,6 +786,146 @@
             font-size: 0.8rem;
             font-style: italic;
             margin-top: 8px;
+        }
+
+        .ver-mais-btn {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .ver-mais-btn:hover {
+            background: #cc0000;
+        }
+
+        /* Player Dialog Modal */
+        .player-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .player-dialog.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dialog-content {
+            background: #1a1a1a;
+            border-radius: 12px;
+            max-width: 90vw;
+            max-height: 90vh;
+            width: 800px;
+            overflow-y: auto;
+            position: relative;
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+        }
+
+        .dialog-header {
+            background: linear-gradient(45deg, #ff0000, #8f3fff);
+            color: white;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+
+        .close-dialog {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .close-dialog:hover {
+            color: #ff6666;
+        }
+
+        .dialog-player-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .dialog-player-full-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin: 5px 0 0 0;
+        }
+
+        .dialog-body {
+            padding: 20px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .player-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .info-section {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff0000;
+        }
+
+        .info-title {
+            font-weight: 600;
+            color: #ff6666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .info-content {
+            line-height: 1.6;
+        }
+
+        .video-section {
+            margin-top: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            /* 16:9 aspect ratio */
+            margin-top: 10px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
         }
 
         @media (max-width: 768px) {
@@ -910,6 +1058,41 @@
                 text-shadow: 0 0 10px #ff6666, 0 0 15px #ff6666;
             }
         }
+
+        @keyframes comingSoonGlow {
+            from {
+                text-shadow: 0 0 5px #ff6666;
+            }
+
+            to {
+                text-shadow: 0 0 10px #ff6666, 0 0 15px #ff6666;
+            }
+        }
+
+        /* Dialog responsive styles */
+        @media (max-width: 768px) {
+            .dialog-content {
+                width: 95vw;
+                max-height: 95vh;
+            }
+
+            .player-info-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .dialog-player-name {
+                font-size: 1.5rem;
+            }
+
+            .dialog-header {
+                padding: 15px;
+            }
+
+            .dialog-body {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 
@@ -946,6 +1129,47 @@
             <h2 class="hall-title">Hall of Legends</h2>
             <div class="legends-grid" id="legendsGrid">
                 <!-- Legends will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Player Dialog Modal -->
+        <div class="player-dialog" id="playerDialog">
+            <div class="dialog-content">
+                <div class="dialog-header">
+                    <button class="close-dialog" onclick="closePlayerDialog()">&times;</button>
+                    <h2 class="dialog-player-name" id="dialogPlayerName"></h2>
+                    <p class="dialog-player-full-name" id="dialogPlayerFullName"></p>
+                </div>
+                <div class="dialog-body">
+                    <div class="player-info-grid">
+                        <div class="info-section">
+                            <div class="info-title">Era</div>
+                            <div class="info-content" id="dialogPlayerEra"></div>
+                        </div>
+                        <div class="info-section">
+                            <div class="info-title">Região</div>
+                            <div class="info-content" id="dialogPlayerRegion"></div>
+                        </div>
+                        <div class="info-section">
+                            <div class="info-title">Equipes</div>
+                            <div class="info-content" id="dialogPlayerTeams"></div>
+                        </div>
+                        <div class="info-section">
+                            <div class="info-title">Principais Títulos</div>
+                            <div class="info-content" id="dialogPlayerTitles"></div>
+                        </div>
+                    </div>
+                    <div class="info-section">
+                        <div class="info-title">Biografia</div>
+                        <div class="info-content" id="dialogPlayerDescription"></div>
+                    </div>
+                    <div class="video-section" id="dialogVideoSection">
+                        <div class="info-title">Vídeos</div>
+                        <div class="video-container" id="dialogVideoContainer">
+                            <!-- Video will be loaded here -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -1551,22 +1775,23 @@
                         <div class="tab">
                         Biografia <span class="arrow">↗</span>
                         </div>
-                    <div class="legend-achievement">${legend.fallenNotes}</div>
                     <p>${legend.description}</p>
                     <div class="legend-date">${legend.era} • ${legend.region}</div>
+                    <button class="ver-mais-btn" onclick="openPlayerDialog(${legend.id})">Ver Mais</button>
                     </div>
             ` : '';
 
             card.innerHTML = `
                 <div class="profile-card ${!isRevealed ? 'unrevealed' : ''}">
-                    <div class="card-image" style="background-image: url('${imageUrl}')"></div>
+                    <div class="card-image" style="background-image: url('${imageUrl}')">
+                        ${descriptionContent}
+                    </div>
                     <div class="card-footer">
                         <h3 class="nickname ${!isRevealed ? 'coming-soon' : ''}">${displayName}</h3>
                         <button class="bio-btn" ${!isRevealed ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
                             Biografia
                         </button>
                     </div>
-                    ${descriptionContent}
                 </div>
             `;
 
@@ -1608,6 +1833,80 @@
         console.log('Current time:', new Date());
         console.log('Target time:', new Date('2025-06-15T15:00:00.000Z'));
         console.log('Time difference:', calculateTimeLeft());
+
+        // Player Dialog Functions
+        function openPlayerDialog(playerId) {
+            const player = legendsData.find(legend => legend.id === playerId);
+            if (!player) return;
+
+            // Populate dialog with player data
+            document.getElementById('dialogPlayerName').textContent = player.name;
+            document.getElementById('dialogPlayerFullName').textContent = player.fullName;
+            document.getElementById('dialogPlayerEra').textContent = player.era;
+            document.getElementById('dialogPlayerRegion').textContent = player.region;
+            document.getElementById('dialogPlayerTeams').textContent = player.teams.join(', ');
+            document.getElementById('dialogPlayerTitles').innerHTML = player.titles.map(title => `• ${title}`).join('<br>');
+            document.getElementById('dialogPlayerDescription').textContent = player.description;
+
+            // Handle video section
+            const videoContainer = document.getElementById('dialogVideoContainer');
+            const videoSection = document.getElementById('dialogVideoSection');
+
+            if (player.videoLinks && player.videoLinks.length > 0) {
+                // Show video section
+                videoSection.style.display = 'block';
+
+                // Get first video link and convert to embed URL
+                const videoUrl = player.videoLinks[0];
+                let embedUrl = '';
+
+                if (videoUrl.includes('youtube.com/watch?v=')) {
+                    const videoId = videoUrl.split('v=')[1].split('&')[0];
+                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                } else if (videoUrl.includes('youtu.be/')) {
+                    const videoId = videoUrl.split('youtu.be/')[1].split('?')[0];
+                    embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                } else if (videoUrl.includes('twitch.tv/')) {
+                    // For Twitch clips, we'll show a link instead
+                    videoContainer.innerHTML = `<a href="${videoUrl}" target="_blank" style="color: #ff6666; text-decoration: none;">🎬 Assistir Clip no Twitch</a>`;
+                } else {
+                    embedUrl = videoUrl;
+                }
+
+                if (embedUrl && !videoUrl.includes('twitch.tv/')) {
+                    videoContainer.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
+                }
+            } else {
+                // Hide video section if no videos
+                videoSection.style.display = 'none';
+            }
+
+            // Show dialog
+            document.getElementById('playerDialog').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closePlayerDialog() {
+            document.getElementById('playerDialog').classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+
+            // Clear video to stop playback
+            document.getElementById('dialogVideoContainer').innerHTML = '';
+        }
+
+        // Close dialog when clicking outside
+        document.getElementById('playerDialog').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closePlayerDialog();
+            }
+        });
+
+        // Close dialog with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closePlayerDialog();
+            }
+        });
     </script>
 </body>
 
