@@ -696,12 +696,12 @@
         /* Footer with nickname and button */
         .card-footer {
             background: #000000;
-            padding: 12px 8px;
+            padding: 14px 12px;
             border-top: none;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
 
         .nickname {
@@ -713,14 +713,15 @@
             letter-spacing: 1px;
             flex: 1;
             text-align: left;
+            padding-right: 8px;
         }
 
         .bio-btn {
             background: #8f3fff;
             color: #fff;
             border: none;
-            padding: 3px 8px;
-            font-size: 0.75rem;
+            padding: 6px 12px;
+            font-size: 0.8rem;
             border-radius: 4px;
             display: inline-flex;
             align-items: center;
@@ -737,14 +738,15 @@
             background: #ff0000;
             color: white;
             border: none;
-            padding: 4px 8px;
-            font-size: 0.7rem;
+            padding: 6px 12px;
+            font-size: 0.8rem;
             font-family: 'Montserrat', sans-serif;
             font-weight: 500;
             border-radius: 4px;
             cursor: pointer;
             transition: background 0.3s ease;
             flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .ver-mais-btn:hover {
@@ -1033,6 +1035,11 @@
             .ver-mais-btn {
                 padding: 4px 8px;
                 font-size: 0.7rem;
+            }
+
+            .card-footer {
+                padding: 12px 10px;
+                gap: 10px;
             }
         }
 
@@ -1821,7 +1828,7 @@
             today.setHours(0, 0, 0, 0);
             revealDate.setHours(0, 0, 0, 0);
 
-            return today >= revealDate;
+            return today > revealDate;
         }
 
         // Get the appropriate image for a legend
