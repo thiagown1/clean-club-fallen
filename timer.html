@@ -841,10 +841,12 @@
             max-width: 90vw;
             max-height: 90vh;
             width: 800px;
-            overflow-y: auto;
+            overflow: overlay;
             position: relative;
             border: 2px solid #ff0000;
             box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
         }
 
         .dialog-header {
@@ -853,6 +855,7 @@
             padding: 20px;
             border-radius: 10px 10px 0 0;
             position: relative;
+            flex-shrink: 0;
         }
 
         .close-dialog {
@@ -888,6 +891,9 @@
             padding: 20px;
             color: white;
             font-family: 'Montserrat', sans-serif;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .player-info-grid {
@@ -1186,7 +1192,7 @@
             color: white;
             border: none;
             padding: 4px 8px;
-            font-size: 0.7rem;
+            font-size: 0.9rem;
             font-family: 'Montserrat', sans-serif;
             font-weight: 500;
             border-radius: 4px;
