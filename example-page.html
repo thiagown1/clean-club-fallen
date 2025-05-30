@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turbo Station - Gaming Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #ff6b6b);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+        }
+
+        .card-description {
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .interactive-section {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .game-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .score-display {
+            font-size: 2rem;
+            margin: 20px 0;
+            color: #4ecdc4;
+            text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            text-align: center;
+            opacity: 0.7;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🚀 TURBO STATION</div>
+            <div class="tagline">Your Ultimate Gaming Destination</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="card">
+                <div class="card-icon">🎮</div>
+                <div class="card-title">Epic Games</div>
+                <div class="card-description">
+                    Discover the latest and greatest games. From indie gems to AAA blockbusters,
+                    we have something for every gamer.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🏆</div>
+                <div class="card-title">Tournaments</div>
+                <div class="card-description">
+                    Join competitive tournaments and showcase your skills.
+                    Win prizes and climb the leaderboards.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">👥</div>
+                <div class="card-title">Community</div>
+                <div class="card-description">
+                    Connect with fellow gamers, share strategies, and make lasting friendships
+                    in our vibrant community.
+                </div>
+            </div>
+        </div>
+
+        <div class="interactive-section">
+            <h2>🎯 Quick Game Demo</h2>
+            <p>Test your reflexes! Click the button as fast as you can!</p>
+            <div class="score-display" id="score">Score: 0</div>
+            <button class="game-button" id="gameButton" onclick="increaseScore()">Click Me!</button>
+            <button class="game-button" onclick="resetScore()">Reset</button>
+
+            <div style="margin-top: 30px;">
+                <p>⏰ Current Time: <span id="currentTime"></span></p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 Turbo Station - Powering Your Gaming Experience</p>
+            <p>This page is iframe-friendly for demonstration purposes</p>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+
+        function increaseScore() {
+            score++;
+            document.getElementById('score').textContent = `Score: ${score}`;
+
+            // Add some visual feedback
+            const button = document.getElementById('gameButton');
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 100);
+        }
+
+        function resetScore() {
+            score = 0;
+            document.getElementById('score').textContent = `Score: ${score}`;
+        }
+
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+        }
+
+        // Update time every second
+        setInterval(updateTime, 1000);
+        updateTime(); // Initial call
+
+        // Add some dynamic effects
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+                card.style.opacity = '0';
+                card.style.animation = 'fadeInUp 0.8s ease forwards';
+            });
+        });
+
+        // CSS animation for cards (added via JavaScript)
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+
+</html>

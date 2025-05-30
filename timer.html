@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Countdown Timer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Yellowtail&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            overflow-x: hidden;
+            overflow-y: auto;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        .iframe-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            z-index: 10;
+            border-bottom: 2px solid rgba(255, 0, 0, 0.3);
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .turbo-link {
+            background: linear-gradient(45deg, #ff0000, #8f3fff);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+
+        .turbo-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.5);
+            text-decoration: none;
+            color: white;
+        }
+
+        .main {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            background-color: #000;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-image: url('/images/background.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
+            transition: transform 0.3s ease;
+            animation: fadeIn 1s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .countdown {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            height: 50vh;
+            margin-top: 10vh;
+        }
+
+        .countdown.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timer {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 2px;
+            position: relative;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .timer::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, rgba(255, 0, 0, 0) 70%);
+            z-index: -1;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .days,
+        .hours,
+        .minutes,
+        .seconds {
+            color: #ff0000;
+            text-shadow:
+                0 0 5px #ff0000,
+                0 0 10px #ff0000,
+                0 0 15px #ff0000,
+                0 0 20px #ff0000,
+                0 0 25px #ff0000;
+            animation: neon 1.5s ease-in-out infinite alternate;
+            padding: 0 0.2rem;
+            position: relative;
+            display: inline-block;
+            min-width: 2.5em;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .days::after,
+        .hours::after,
+        .minutes::after,
+        .seconds::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0, 0.5) 50%, rgba(255, 0, 0, 0) 100%);
+        }
+
+        .separator {
+            color: #ff0000;
+            opacity: 0.8;
+            text-shadow:
+                0 0 5px #ff0000,
+                0 0 10px #ff0000;
+            animation: neon-separator 1.5s ease-in-out infinite alternate;
+            margin: 0 0.2rem;
+        }
+
+        @keyframes neon {
+            from {
+                text-shadow:
+                    0 0 5px #ff0000,
+                    0 0 10px #ff0000,
+                    0 0 15px #ff0000,
+                    0 0 20px #ff0000;
+                filter: brightness(0.9);
+            }
+
+            to {
+                text-shadow:
+                    0 0 5px #ff0000,
+                    0 0 10px #ff0000,
+                    0 0 15px #ff0000,
+                    0 0 20px #ff0000,
+                    0 0 25px #ff0000,
+                    0 0 30px #ff0000;
+                filter: brightness(1.1);
+            }
+        }
+
+        @keyframes neon-separator {
+            from {
+                opacity: 0.6;
+            }
+
+            to {
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.1;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes floatHorizontal {
+
+            0%,
+            100% {
+                transform: translateX(-10px);
+            }
+
+            50% {
+                transform: translateX(10px);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .timer {
+                font-size: 3.5rem;
+            }
+
+            .timerContainer {
+                padding: 25px 20px;
+                max-width: 85vw;
+            }
+
+            .hall-of-legends {
+                width: 92%;
+                padding: 35px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .timer {
+                font-size: 3rem;
+                gap: 0.4rem;
+            }
+
+            .timer::before {
+                width: 120px;
+                height: 120px;
+            }
+
+            .timerContainer {
+                padding: 25px 18px;
+                max-width: 88vw;
+            }
+
+            .timerLabel {
+                font-size: 0.95rem;
+                letter-spacing: 2.5px;
+            }
+
+            .timeUnit {
+                margin: 0 6px;
+            }
+
+            .unitLabel {
+                font-size: 0.65rem;
+            }
+
+            .hall-of-legends {
+                width: 93%;
+                padding: 30px;
+            }
+
+            .legends-grid {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .countdown {
+                height: auto;
+                margin-top: 12vh;
+                padding: 18px;
+            }
+
+            .timer {
+                font-size: 2.8rem;
+                gap: 0.35rem;
+            }
+
+            .timer::before {
+                width: 110px;
+                height: 110px;
+            }
+
+            .timerContainer {
+                padding: 22px 16px;
+                max-width: 90vw;
+            }
+
+            .timerLabel {
+                font-size: 0.9rem;
+                letter-spacing: 2px;
+                margin-bottom: 12px;
+            }
+
+            .timeUnit {
+                margin: 0 5px;
+            }
+
+            .unitLabel {
+                font-size: 0.62rem;
+                margin-top: 6px;
+            }
+
+            .separator {
+                margin: 0 0.15rem;
+            }
+
+            .hall-of-legends {
+                width: 94%;
+                padding: 25px;
+            }
+
+            .hall-title {
+                font-size: 3.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .countdown {
+                height: auto;
+                margin-top: 15vh;
+                padding: 15px;
+            }
+
+            .timer {
+                font-size: 2.5rem;
+                gap: 0.3rem;
+            }
+
+            .timer::before {
+                width: 100px;
+                height: 100px;
+            }
+
+            .timerContainer {
+                padding: 20px 15px;
+            }
+
+            .timerLabel {
+                font-size: 0.9rem;
+                letter-spacing: 2px;
+                margin-bottom: 15px;
+            }
+
+            .timeUnit {
+                margin: 0 4px;
+            }
+
+            .unitLabel {
+                font-size: 0.6rem;
+                margin-top: 8px;
+            }
+
+            .separator {
+                margin: 0 0.1rem;
+            }
+
+            .logo img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .logo {
+                top: 15px;
+                left: 15px;
+            }
+
+            .profile-card {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .countdown {
+                margin-top: 12vh;
+                padding: 10px;
+            }
+
+            .timer {
+                font-size: 1.8rem;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 0.2rem;
+            }
+
+            .timer::before {
+                width: 80px;
+                height: 80px;
+            }
+
+            .timerContainer {
+                padding: 15px 10px;
+                max-width: 95vw;
+            }
+
+            .timerLabel {
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+                margin-bottom: 10px;
+            }
+
+            .timeUnit {
+                margin: 0 2px;
+                min-width: auto;
+            }
+
+            .days,
+            .hours,
+            .minutes,
+            .seconds {
+                min-width: 2em;
+                font-size: 1.8rem;
+            }
+
+            .unitLabel {
+                font-size: 0.5rem;
+                margin-top: 5px;
+            }
+
+            .separator {
+                font-size: 1.8rem;
+                margin: 0;
+            }
+
+            .logo img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .logo {
+                top: 10px;
+                left: 10px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .timer {
+                font-size: 1.5rem;
+            }
+
+            .days,
+            .hours,
+            .minutes,
+            .seconds {
+                font-size: 1.5rem;
+                min-width: 1.8em;
+            }
+
+            .separator {
+                font-size: 1.5rem;
+            }
+
+            .timerContainer {
+                padding: 12px 8px;
+            }
+
+            .timerLabel {
+                font-size: 0.7rem;
+            }
+
+            .unitLabel {
+                font-size: 0.45rem;
+            }
+        }
+
+        @media (max-width: 600px) and (min-height: 600px) {
+
+            /* This targets narrow desktop windows (not mobile) */
+            .countdown {
+                margin-top: 8vh;
+                padding: 12px;
+            }
+
+            .timer {
+                font-size: 2.2rem;
+                gap: 0.25rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .timer::before {
+                width: 90px;
+                height: 90px;
+            }
+
+            .timerContainer {
+                padding: 18px 12px;
+                max-width: 95vw;
+            }
+
+            .timerLabel {
+                font-size: 0.85rem;
+                letter-spacing: 1.5px;
+                margin-bottom: 8px;
+            }
+
+            .timeUnit {
+                margin: 0 3px;
+                flex-shrink: 0;
+            }
+
+            .days,
+            .hours,
+            .minutes,
+            .seconds {
+                font-size: 2.2rem;
+                min-width: 2.2em;
+            }
+
+            .unitLabel {
+                font-size: 0.55rem;
+                margin-top: 4px;
+            }
+
+            .separator {
+                font-size: 2.2rem;
+                margin: 0 0.05rem;
+            }
+
+            .hall-of-legends {
+                width: 96%;
+                padding: 20px 15px;
+            }
+
+            .hall-title {
+                font-size: 2.8rem;
+            }
+
+            .legends-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+
+        .timerContainer {
+            position: relative;
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            animation: glow 4s ease-in-out infinite alternate;
+            max-width: 90vw;
+            width: 100%;
+        }
+
+        .timerLabel {
+            font-family: 'Orbitron', sans-serif;
+            color: #ff3333;
+            font-size: 1rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .timeUnit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 8px;
+            min-width: fit-content;
+        }
+
+        .unitLabel {
+            font-family: 'Orbitron', sans-serif;
+            color: #ff3333;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-top: 5px;
+            opacity: 0.7;
+            white-space: nowrap;
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            }
+        }
+
+        /* Hall of Legends Styles */
+        .hall-of-legends {
+            position: relative;
+            z-index: 5;
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)),
+                url('https://magazord-public.s3.sa-east-1.amazonaws.com/fallen/img/2025/05/banner/2650/hall-of-legends-background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+        }
+
+        .hall-of-legends.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hall-title {
+            font-family: 'Yellowtail', cursive;
+            color: #ffffff;
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            text-shadow:
+                0 0 10px #ff0000,
+                0 0 20px #ff0000,
+                0 0 30px #ff0000;
+            animation: neon-title 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes neon-title {
+            from {
+                text-shadow:
+                    0 0 10px #ff0000,
+                    0 0 20px #ff0000,
+                    0 0 30px #ff0000;
+            }
+
+            to {
+                text-shadow:
+                    0 0 10px #ff0000,
+                    0 0 20px #ff0000,
+                    0 0 30px #ff0000,
+                    0 0 40px #ff0000;
+            }
+        }
+
+        .legends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+            justify-items: center;
+            max-width: 100%;
+        }
+
+        /* Card wrapper creates the gradient border */
+        .card-wrapper {
+            padding: 4px;
+            border-radius: 16px;
+            background: linear-gradient(to bottom, #00e0ff 0%, #8f3fff 100%);
+            display: block;
+            width: 100%;
+            box-shadow: 0 0 10px rgba(143, 63, 255, 0.4);
+        }
+
+        /* Card content */
+        .profile-card {
+            width: 100%;
+            background: #1f1f1f;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                0 0 8px rgba(0, 224, 255, 0.6),
+                0 0 12px rgba(143, 63, 255, 0.6);
+        }
+
+        /* Image in 1:1 proportion */
+        .card-image {
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            background-size: cover;
+            background-position: center;
+            background-image: linear-gradient(135deg, #ff0033 0%, #9933ff 100%);
+        }
+
+        /* Footer with nickname and button */
+        .card-footer {
+            background: #000000;
+            padding: 12px 8px;
+            text-align: center;
+            border-top: none;
+        }
+
+        .nickname {
+            color: #fff;
+            font-family: monospace;
+            text-transform: uppercase;
+            font-size: 1rem;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+
+        .bio-btn {
+            background: #8f3fff;
+            color: #fff;
+            border: none;
+            padding: 4px 12px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .bio-btn .arrow {
+            margin-left: 4px;
+            font-size: 0.7rem;
+        }
+
+        /* Description hover */
+        .description {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, #00e0ff, #b83fff);
+            padding: 50px 16px 16px;
+            color: #111;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            border-radius: 12px;
+        }
+
+        .profile-card:hover .description {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Biography tab */
+        .description .tab {
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #8f3fff;
+            color: #fff;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 8px 8px 0 0;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .description .tab .arrow {
+            margin-left: 4px;
+            font-size: 0.7rem;
+        }
+
+        .legend-achievement {
+            color: #111;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .legend-date {
+            color: #222;
+            font-size: 0.8rem;
+            font-style: italic;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .hall-title {
+                font-size: 3rem;
+            }
+
+            .legends-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .hall-of-legends {
+                width: 95%;
+                padding: 20px;
+                margin: 20px auto;
+                background-attachment: scroll;
+            }
+
+            .card-wrapper {
+                max-width: 100%;
+            }
+
+            .profile-card {
+                width: 100%;
+            }
+
+            .description {
+                padding: 40px 12px 12px;
+                font-size: 0.8rem;
+            }
+
+            .description .tab {
+                top: -24px;
+                padding: 4px 8px;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .legends-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 10px;
+            }
+
+            .hall-title {
+                font-size: 2.5rem;
+                margin-bottom: 20px;
+            }
+
+            .hall-of-legends {
+                width: 98%;
+                padding: 15px;
+                margin: 15px auto;
+            }
+
+            .card-wrapper {
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            .profile-card {
+                max-width: 100%;
+            }
+
+            .description {
+                padding: 35px 10px 10px;
+                font-size: 0.75rem;
+                line-height: 1.3;
+            }
+
+            .description .tab {
+                top: -20px;
+                padding: 3px 6px;
+                font-size: 0.7rem;
+            }
+
+            .nickname {
+                font-size: 0.9rem;
+            }
+
+            .bio-btn {
+                padding: 3px 8px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="main">
+        <div class="background"></div>
+
+        <div class="logo">
+            <img src="/images/logo_no_bg.png" alt="Logo">
+        </div>
+
+        <div class="countdown" id="countdown">
+            <div class="timerContainer">
+                <div class="timerLabel">LAUNCHING IN</div>
+                <div class="timer">
+                    <div class="timeUnit">
+                        <span class="days" id="days">00</span>
+                        <span class="unitLabel">DAYS</span>
+                    </div>
+                    <span class="separator">:</span>
+                    <div class="timeUnit">
+                        <span class="hours" id="hours">00</span>
+                        <span class="unitLabel">HOURS</span>
+                    </div>
+                    <span class="separator">:</span>
+                    <div class="timeUnit">
+                        <span class="minutes" id="minutes">00</span>
+                        <span class="unitLabel">MINS</span>
+                    </div>
+                    <span class="separator">:</span>
+                    <div class="timeUnit">
+                        <span class="seconds" id="seconds">00</span>
+                        <span class="unitLabel">SECS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hall-of-legends" id="hallOfLegends">
+            <h2 class="hall-title">Hall of Legends</h2>
+            <div class="legends-grid" id="legendsGrid">
+                <!-- Legends will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // State variables
+        let timeLeft = {
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0
+        };
+        let mounted = false;
+
+        // DOM elements
+        const countdownElement = document.getElementById('countdown');
+        const hallOfLegendsElement = document.getElementById('hallOfLegends');
+        const daysElement = document.getElementById('days');
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        const legendsGridElement = document.getElementById('legendsGrid');
+
+        // Sample legends data
+        const legendsData = [
+            {
+                name: "Shadow Master",
+                achievement: "First to reach maximum level",
+                date: "2024-03-15",
+                bio: "A legendary player who dominated the early game meta. Known for incredible strategic thinking and flawless execution in high-pressure situations."
+            },
+            {
+                name: "Iron Fist",
+                achievement: "Undefeated champion for 6 months",
+                date: "2024-02-28",
+                bio: "An unstoppable force in competitive play. Iron Fist's aggressive playstyle and tactical mastery made them virtually unbeatable for half a year."
+            },
+            {
+                name: "Phoenix Rising",
+                achievement: "Most epic comeback victory",
+                date: "2024-01-20",
+                bio: "Famous for the most incredible comeback in tournament history. When all seemed lost, Phoenix Rising turned defeat into victory against all odds."
+            },
+            {
+                name: "Night Walker",
+                achievement: "Fastest completion record",
+                date: "2024-04-10",
+                bio: "Speed incarnate. Night Walker holds multiple world records for fastest completion times and continues to push the boundaries of what's possible."
+            },
+            {
+                name: "Storm Breaker",
+                achievement: "Most tournaments won",
+                date: "2024-03-30",
+                bio: "Tournament royalty with an impressive collection of championship titles. Storm Breaker's consistency and adaptability are unmatched."
+            },
+            {
+                name: "Void Hunter",
+                achievement: "Legendary achievement unlocked",
+                date: "2024-04-05",
+                bio: "The first player to unlock the impossible achievement that many thought was just a myth. Void Hunter's dedication knows no bounds."
+            }
+        ];
+
+        // Calculate time left function
+        function calculateTimeLeft() {
+            // Create target date: June 15, 2025 at 12:00:00 UTC-3
+            const targetDate = new Date('2025-06-15T15:00:00.000Z'); // 12:00 UTC-3 is 15:00 UTC
+
+            const now = new Date();
+
+            // Calculate the time difference in milliseconds
+            const difference = targetDate.getTime() - now.getTime();
+
+            // If the target date has passed, return all zeros
+            if (difference <= 0) {
+                return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+            }
+
+            // Calculate days, hours, minutes, and seconds
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            return {
+                days,
+                hours,
+                minutes,
+                seconds
+            };
+        }
+
+        // Format time function
+        function formatTime(value) {
+            return value.toString().padStart(2, '0');
+        }
+
+        // Update display function
+        function updateDisplay() {
+            daysElement.textContent = formatTime(timeLeft.days);
+            hoursElement.textContent = formatTime(timeLeft.hours);
+            minutesElement.textContent = formatTime(timeLeft.minutes);
+            secondsElement.textContent = formatTime(timeLeft.seconds);
+        }
+
+        // Update timer function
+        function updateTimer() {
+            timeLeft = calculateTimeLeft();
+            updateDisplay();
+        }
+
+        // Create legend card function
+        function createLegendCard(legend) {
+            const card = document.createElement('div');
+            card.className = 'card-wrapper';
+            card.innerHTML = `
+                <div class="profile-card">
+                    <div class="card-image"></div>
+                    <div class="card-footer">
+                        <h3 class="nickname">${legend.name}</h3>
+                        <button class="bio-btn">
+                            Biografia
+                        </button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        // Populate Hall of Legends
+        function populateHallOfLegends() {
+            legendsData.forEach(legend => {
+                const card = createLegendCard(legend);
+                legendsGridElement.appendChild(card);
+            });
+        }
+
+        // Initialize the timer and hall of legends
+        function initTimer() {
+            mounted = true;
+            countdownElement.classList.add('visible');
+
+            // Set initial time left
+            updateTimer();
+
+            // Start the timer interval
+            setInterval(updateTimer, 1000);
+
+            // Populate Hall of Legends
+            populateHallOfLegends();
+
+            // Show Hall of Legends with delay
+            setTimeout(() => {
+                hallOfLegendsElement.classList.add('visible');
+            }, 1500);
+        }
+
+        // Start the timer when the page loads
+        window.addEventListener('load', initTimer);
+
+        // Debug: Log the current time and target time
+        console.log('Current time:', new Date());
+        console.log('Target time:', new Date('2025-06-15T15:00:00.000Z'));
+        console.log('Time difference:', calculateTimeLeft());
+    </script>
+</body>
+
+</html>
