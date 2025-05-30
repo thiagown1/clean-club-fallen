@@ -654,7 +654,7 @@
         .card-wrapper {
             padding: 4px;
             border-radius: 16px;
-            background: linear-gradient(to bottom, #00e0ff 0%, #8f3fff 100%);
+            background: linear-gradient(to bottom, #00e0ff 0%, #8E3FFF 100%);
             display: block;
             width: 100%;
             box-shadow: 0 0 10px rgba(143, 63, 255, 0.4);
@@ -689,7 +689,7 @@
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
-            background-image: linear-gradient(135deg, #ff0033 0%, #9933ff 100%);
+            background-image: linear-gradient(135deg, #ff0033 0%, #8E3FFF 100%);
             position: relative;
         }
 
@@ -760,7 +760,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(to bottom, #00e0ff, #b83fff);
+            background: linear-gradient(to bottom, #00e0ff, #8f3fff);
             padding: 16px 12px;
             color: #111;
             font-family: 'Montserrat', sans-serif;
@@ -1124,16 +1124,26 @@
         }
 
         .description {
-            padding: 12px 8px;
-            font-size: 0.65rem;
-            line-height: 1.1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, #00e0ff, #8f3fff);
+            padding: 16px 12px;
+            color: #111;
+            font-family: 'Montserrat', sans-serif;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            flex-direction: column;
             justify-content: flex-start;
-        }
-
-        .description .tab {
-            top: -18px;
-            padding: 2px 5px;
-            font-size: 0.65rem;
+            box-sizing: border-box;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
         }
 
         .description p {
@@ -1143,27 +1153,32 @@
             line-height: inherit;
             display: block;
             position: relative;
-            flex: 1;
+            flex: 0 0 auto;
         }
 
         .description::after {
             content: '';
             position: absolute;
-            bottom: 60px;
+            bottom: 0;
             left: 0;
             right: 0;
-            height: 40px;
-            background: linear-gradient(to bottom, transparent, #b83fff);
+            height: 50%;
+            background: linear-gradient(to bottom, transparent, #8E3FFF);
             pointer-events: none;
             z-index: 1;
         }
 
         .legend-date {
-            color: #222;
-            font-size: 0.75em;
+            color: #fff;
+            font-size: 0.9em;
             font-style: italic;
             margin: 6px 0;
-            flex-shrink: 0;
+            position: absolute;
+            bottom: 16px;
+            left: 12px;
+            right: 12px;
+            z-index: 2;
+            font-weight: 600;
         }
 
         .ver-mais-btn {
@@ -1874,7 +1889,7 @@
                     <div class="description">
                     <p>${legend.description}</p>
                     <div class="legend-date">${legend.era} • ${legend.region}</div>
-                    </div>
+                        </div>
             ` : '';
 
             card.innerHTML = `
