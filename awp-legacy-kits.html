@@ -505,10 +505,53 @@
         }
 
         /* Experiences Section */
+        .experiences-section {
+            background: linear-gradient(135deg, rgba(255, 222, 0, 0.05), rgba(255, 0, 0, 0.03));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experiences-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 222, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 0, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .experiences-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .experiences-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            color: var(--bg-black);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(255, 222, 0, 0.3);
+        }
+
         .experiences-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
         .experience-card {
@@ -516,42 +559,218 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 2.5rem;
+            padding: 1.6rem 1.2rem;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            height: 360px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .experience-card:hover::before {
+            transform: translateX(100%);
         }
 
         .experience-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px) scale(1.01);
             border-color: var(--primary-gold);
-            box-shadow: 0 20px 40px rgba(255, 222, 0, 0.2);
+            box-shadow: 0 15px 35px rgba(255, 222, 0, 0.15),
+                0 0 0 1px rgba(255, 222, 0, 0.1);
         }
 
         .experience-icon {
-            width: 80px;
-            height: 80px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
+            margin: 0 auto 1rem;
+            font-size: 1.4rem;
             color: var(--bg-black);
+            box-shadow: 0 6px 20px rgba(255, 222, 0, 0.25);
+            transition: all 0.3s ease;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .experience-icon::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .experience-card:hover .experience-icon {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 10px 30px rgba(255, 222, 0, 0.4);
+        }
+
+        .experience-card:hover .experience-icon::after {
+            opacity: 0.15;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.15;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.05;
+            }
         }
 
         .experience-title {
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: 800;
             color: var(--primary-gold);
-            margin-bottom: 1rem;
+            margin-bottom: 0.7rem;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .experience-card:hover .experience-title {
+            color: var(--text-white);
+            text-shadow: 0 0 12px var(--primary-gold);
         }
 
         .experience-description {
             color: var(--text-gray);
-            line-height: 1.6;
+            line-height: 1.4;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .experience-card:hover .experience-description {
+            color: var(--text-white);
+        }
+
+        .experience-features {
+            list-style: none;
+            margin-bottom: 0;
+            text-align: left;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .experience-features li {
+            display: flex;
+            align-items: center;
+            padding: 0.3rem 0;
+            color: var(--text-gray);
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 222, 0, 0.08);
+        }
+
+        .experience-features li:last-child {
+            border-bottom: none;
+        }
+
+        .experience-features li::before {
+            content: '✓';
+            color: var(--primary-gold);
+            font-weight: bold;
+            margin-right: 0.8rem;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .experience-card:hover .experience-features li {
+            color: var(--text-white);
+            padding-left: 2px;
+        }
+
+        .experience-cta {
+            display: inline-block;
+            background: transparent;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experience-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .experience-cta:hover::before {
+            left: 0;
+        }
+
+        .experience-cta:hover {
+            color: var(--bg-black);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 222, 0, 0.4);
+        }
+
+        .legends-grid {
+            grid-template-columns: 1fr;
+        }
+
+        /* Special Cards Styling */
+        .experience-card.featured {
+            border: 2px solid var(--primary-gold);
+            transform: scale(1.05);
+        }
+
+        .experience-card.featured .experience-icon {
+            background: linear-gradient(45deg, var(--accent-red), #ff4444);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .experience-card.featured .experience-title {
+            color: var(--accent-red);
         }
 
         /* Golden Key Section */
@@ -563,8 +782,8 @@
 
         .key-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            grid-template-columns: 1fr;
+            gap: 3rem;
             align-items: center;
         }
 
@@ -630,48 +849,6 @@
             text-transform: uppercase;
             font-size: 0.9rem;
             font-weight: 600;
-        }
-
-        /* Treasure Hunt Section */
-        .treasure-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .treasure-visual {
-            position: relative;
-            text-align: center;
-        }
-
-        .treasure-map {
-            width: 100%;
-            max-width: 400px;
-            height: 300px;
-            background: var(--glass-bg);
-            border: 2px solid var(--primary-gold);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .treasure-map::before {
-            content: '🗺️';
-            font-size: 4rem;
-            opacity: 0.7;
-        }
-
-        .treasure-info {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 3rem;
         }
 
         /* Hall of Legends Section */
@@ -755,6 +932,13 @@
         }
 
         /* Responsive Design - Enhanced */
+        @media (max-width: 1024px) {
+            .experiences-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero-section {
                 grid-template-columns: 1fr;
@@ -885,14 +1069,55 @@
                 font-size: 0.8rem;
             }
 
-            .key-container,
-            .treasure-container {
+            .key-container {
                 grid-template-columns: 1fr;
                 gap: 3rem;
             }
 
             .experiences-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .experience-card {
+                padding: 1.5rem 1.2rem;
+                transform: none !important;
+                height: 320px;
+            }
+
+            .experience-card:hover {
+                transform: translateY(-5px) !important;
+            }
+
+            .experience-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.4rem;
+                margin-bottom: 1rem;
+            }
+
+            .experience-title {
+                font-size: 1rem;
+                margin-bottom: 0.7rem;
+            }
+
+            .experience-description {
+                font-size: 0.8rem;
+                margin-bottom: 1rem;
+                line-height: 1.4;
+            }
+
+            .experience-features {
+                margin-bottom: 0;
+            }
+
+            .experience-features li {
+                padding: 0.3rem 0;
+                font-size: 0.75rem;
+            }
+
+            .experience-cta {
+                padding: 8px 16px;
+                font-size: 0.75rem;
             }
 
             .legends-grid {
@@ -1196,20 +1421,27 @@
     </section>
 
     <!-- Extra Experiences Section -->
-    <section id="experiences" class="section">
+    <section id="experiences" class="section experiences-section">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Experiências Exclusivas</h2>
+            <div class="experiences-header">
+                <span class="experiences-badge">Experiências VIP</span>
+                <h2 class="section-title">Experiências Extras</h2>
                 <p class="section-subtitle">Além dos produtos físicos, desfrute de experiências únicas como membro da
                     Fallen Club</p>
             </div>
 
             <div class="experiences-grid">
-                <div class="experience-card">
+                <div class="experience-card featured">
                     <div class="experience-icon">🎯</div>
                     <h3 class="experience-title">WorkShop com FALLEN</h3>
                     <p class="experience-description">Acesso exclusivo a workshops de CS com Gabriel "FalleN" Toledo,
                         aprenda diretamente com o lendário AWPer brasileiro.</p>
+                    <ul class="experience-features">
+                        <li>Sessões ao vivo mensais</li>
+                        <li>Análise de demos pessoais</li>
+                        <li>Dicas de posicionamento AWP</li>
+                        <li>Q&A exclusivo com FalleN</li>
+                    </ul>
                 </div>
 
                 <div class="experience-card">
@@ -1217,13 +1449,38 @@
                     <h3 class="experience-title">Campeonato 1x1</h3>
                     <p class="experience-description">Participe de torneios exclusivos 1v1 com prêmios incríveis e
                         chance de entrar no Hall of Fame da comunidade.</p>
+                    <ul class="experience-features">
+                        <li>Torneios semanais</li>
+                        <li>Prêmios em dinheiro</li>
+                        <li>Ranking exclusivo</li>
+                        <li>Hall of Fame permanente</li>
+                    </ul>
+                </div>
+
+                <div class="experience-card">
+                    <div class="experience-icon">🗝️</div>
+                    <h3 class="experience-title">Caça ao Tesouro</h3>
+                    <p class="experience-description">Participe de missões secretas e desafios especiais para ganhar
+                        recompensas exclusivas e descobrir segredos ocultos.</p>
+                    <ul class="experience-features">
+                        <li>Missões semanais secretas</li>
+                        <li>Prêmios únicos e raros</li>
+                        <li>Desafios progressivos</li>
+                        <li>Conquistas especiais</li>
+                    </ul>
                 </div>
 
                 <div class="experience-card">
                     <div class="experience-icon">💬</div>
-                    <h3 class="experience-title">Grupo Fechado</h3>
+                    <h3 class="experience-title">Grupos Fechados</h3>
                     <p class="experience-description">Entrada em grupos fechados no Discord e WhatsApp para interagir
                         diretamente com outros fãs e receber conteúdo exclusivo.</p>
+                    <ul class="experience-features">
+                        <li>Canal VIP no Discord</li>
+                        <li>Grupo WhatsApp exclusivo</li>
+                        <li>Contato direto com FalleN</li>
+                        <li>Conteúdo behind the scenes</li>
+                    </ul>
                 </div>
 
                 <div class="experience-card">
@@ -1231,13 +1488,25 @@
                     <h3 class="experience-title">Acesso Antecipado</h3>
                     <p class="experience-description">Seja o primeiro a ter acesso a novos drops, produtos e
                         experiências antes do lançamento público.</p>
+                    <ul class="experience-features">
+                        <li>Early access a novos produtos</li>
+                        <li>Descontos exclusivos</li>
+                        <li>Preview de conteúdos</li>
+                        <li>Feedback direto para melhorias</li>
+                    </ul>
                 </div>
 
                 <div class="experience-card">
-                    <div class="experience-icon">🗺️</div>
-                    <h3 class="experience-title">Caça Tesouros Virtual</h3>
-                    <p class="experience-description">Participe de caças ao tesouro virtuais com puzzles e desafios para
-                        ganhar prêmios exclusivos e Golden Keys.</p>
+                    <div class="experience-icon">🎮</div>
+                    <h3 class="experience-title">Match Making VIP</h3>
+                    <p class="experience-description">Sistema exclusivo de matchmaking para membros VIP jogarem entre si
+                        em ambiente competitivo e amigável.</p>
+                    <ul class="experience-features">
+                        <li>Servers dedicados</li>
+                        <li>Anti-cheat premium</li>
+                        <li>Ranking interno</li>
+                        <li>Prêmios por performance</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -1280,36 +1549,6 @@
                         </div>
                     </div>
                     <a href="#" class="btn btn-primary">Abrir Cases</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Treasure Hunt Section -->
-    <section id="treasure-hunt" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Caça ao Tesouro</h2>
-                <p class="section-subtitle">Resolva mistérios, encontre pistas e ganhe Golden Keys exclusivas</p>
-            </div>
-
-            <div class="treasure-container">
-                <div class="treasure-visual">
-                    <div class="treasure-map"></div>
-                    <h3 style="color: var(--primary-gold); font-size: 1.5rem; margin-top: 2rem;">Aventura Misteriosa
-                    </h3>
-                </div>
-                <div class="treasure-info">
-                    <h3 style="color: var(--primary-gold); font-size: 1.8rem; margin-bottom: 2rem;">Como Funciona</h3>
-                    <ul style="list-style: none; margin-bottom: 2rem;">
-                        <li style="margin-bottom: 1rem; color: var(--text-gray);">🔍 Resolva puzzles e decifre pistas
-                        </li>
-                        <li style="margin-bottom: 1rem; color: var(--text-gray);">🗺️ Explore mapas interativos</li>
-                        <li style="margin-bottom: 1rem; color: var(--text-gray);">🏆 Ganhe Golden Keys como recompensa
-                        </li>
-                        <li style="margin-bottom: 1rem; color: var(--text-gray);">👥 Compete com outros caçadores</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Começar Caçada</a>
                 </div>
             </div>
         </div>
